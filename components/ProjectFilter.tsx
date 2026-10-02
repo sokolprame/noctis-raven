@@ -52,7 +52,7 @@ export default function ProjectFilter() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.45, ease: "easeOut", delay: index * 0.04 }}
-              className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-[#0a0a0a] p-5"
+              className="group relative overflow-hidden rounded-[24px] border border-white/10 bg-[#0a0a0a] p-4 sm:rounded-[28px] sm:p-5"
             >
               <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_top_right,rgba(179,0,45,0.28),transparent_38%)]" />
               <div className="relative">
@@ -64,7 +64,7 @@ export default function ProjectFilter() {
                 <div
                   role="img"
                   aria-label={`${project.title} — ${project.copy[locale].summary}`}
-                  className="relative mb-5 h-56 overflow-hidden rounded-[20px] border border-white/10 bg-[#111]"
+                  className="relative mb-5 h-48 overflow-hidden rounded-[18px] border border-white/10 bg-[#111] sm:h-56 sm:rounded-[20px]"
                   style={{
                     backgroundImage: `linear-gradient(180deg, rgba(5,5,5,0.02), rgba(5,5,5,0.44)), url("${project.previewUrl}")`,
                     backgroundPosition: "center",
@@ -75,8 +75,8 @@ export default function ProjectFilter() {
                   <span className="absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-black/60 to-transparent" />
                 </div>
 
-                <div className="mb-3 flex items-center justify-between gap-4">
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-[#a1a1a1]">{project.client}</p>
+                <div className="mb-3 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                  <p className="text-[10px] uppercase tracking-[0.24em] text-[#a1a1a1] sm:tracking-[0.3em]">{project.client}</p>
                   <span className="text-[10px] uppercase tracking-[0.25em] text-[#ff1a4d]">{project.category}</span>
                 </div>
 

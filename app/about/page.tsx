@@ -11,11 +11,11 @@ export default async function AboutPage({ searchParams }: { searchParams?: Promi
   return (
     <main className="min-h-screen bg-[#050505] text-[#f5f5f5]">
       <SiteHeader />
-      <div className="mx-auto max-w-6xl px-6 py-16 sm:px-8 lg:px-10">
+      <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
         <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">
           {isRu ? "ОБО МНЕ" : "ABOUT ME"}
         </p>
-        <h1 className="mt-6 text-5xl font-medium uppercase tracking-[-0.06em] text-[#f5f5f5] sm:text-6xl">
+        <h1 className="mt-6 text-3xl font-medium uppercase leading-[1.02] tracking-[-0.06em] text-[#f5f5f5] sm:text-6xl">
           {isRu ? "Я НА СТЫКЕ ИСКУССТВА И ТЕХНОЛОГИЙ." : "I WORK AT THE INTERSECTION OF ART AND TECHNOLOGY."}
         </h1>
 
@@ -41,17 +41,17 @@ export default async function AboutPage({ searchParams }: { searchParams?: Promi
           <div className="space-y-4 rounded-[28px] border border-white/10 bg-[#0a0a0a] p-6">
             <p className="text-[11px] uppercase tracking-[0.38em] text-[#ff1a4d]">{isRu ? "КЛЮЧЕВОЕ" : "CORE"}</p>
             <div className="space-y-4 text-sm text-[#d4d4d4]">
-              <div className="flex items-center justify-between border-b border-white/5 pb-3">
+              <div className="flex flex-col gap-1 border-b border-white/5 pb-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                 <span>{isRu ? "Дизайн" : "Designer"}</span>
-                <span className="text-[#a1a1a1]">{isRu ? "UI / identity / визуальные системы" : "UI / identity / visual systems"}</span>
+                <span className="break-words text-[#a1a1a1] sm:text-right">{isRu ? "UI / identity / визуальные системы" : "UI / identity / visual systems"}</span>
               </div>
-              <div className="flex items-center justify-between border-b border-white/5 pb-3">
+              <div className="flex flex-col gap-1 border-b border-white/5 pb-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                 <span>{isRu ? "Искусство" : "Artist"}</span>
-                <span className="text-[#a1a1a1]">{isRu ? "иллюстрация / портреты / worldbuilding" : "illustration / portraits / worldbuilding"}</span>
+                <span className="break-words text-[#a1a1a1] sm:text-right">{isRu ? "иллюстрация / портреты / worldbuilding" : "illustration / portraits / worldbuilding"}</span>
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                 <span>{isRu ? "Разработка" : "Developer"}</span>
-                <span className="text-[#a1a1a1]">{isRu ? "web / frontend / продуктовые решения" : "web / frontend / product experiences"}</span>
+                <span className="break-words text-[#a1a1a1] sm:text-right">{isRu ? "web / frontend / продуктовые решения" : "web / frontend / product experiences"}</span>
               </div>
             </div>
           </div>

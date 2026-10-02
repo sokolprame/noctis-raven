@@ -118,8 +118,8 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
         </div>
       </header>
 
-      <section className="relative mx-auto max-w-7xl px-6 pb-16 pt-12 sm:px-8 lg:px-10 lg:pb-24 lg:pt-20">
-        <div className="grid items-end gap-12 lg:grid-cols-[1.2fr_0.8fr]">
+      <section className="relative mx-auto max-w-7xl px-5 pb-12 pt-8 sm:px-8 sm:pb-16 sm:pt-12 lg:px-10 lg:pb-24 lg:pt-20">
+        <div className="grid items-end gap-8 sm:gap-12 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-8">
             <p className="inline-flex items-center gap-3 border border-white/10 bg-white/3 px-4 py-2 text-[10px] uppercase tracking-[0.38em] text-[#a1a1a1]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#ff1a4d]" />
@@ -158,7 +158,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
         </div>
       </section>
 
-      <section id="work" className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-10">
+      <section id="work" className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
         <div className="mb-10 flex items-end justify-between gap-6 border-b border-white/10 pb-6">
           <div>
             <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{t.sectionWork}</p>
@@ -172,7 +172,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
         <ProjectFilter />
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-10">
+      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-6">
             <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{t.sectionAbout}</p>
@@ -200,7 +200,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-10">
+      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
         <div className="mb-8 flex items-end justify-between gap-6 border-b border-white/10 pb-6">
           <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{t.sectionExpertise}</p>
         </div>
@@ -222,7 +222,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-10">
+      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
         <div className="mb-8 border-b border-white/10 pb-6">
           <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{locale === "ru" ? "УСЛУГИ" : "SERVICES"}</p>
         </div>
@@ -248,7 +248,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-10">
+      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
         <div className="rounded-4xl border border-white/10 bg-[linear-gradient(135deg,rgba(179,0,45,0.08),rgba(255,255,255,0.01))] p-8 md:p-12">
           <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{t.philosophy}</p>
           <h3 className="mt-8 max-w-4xl text-4xl font-medium uppercase tracking-[-0.06em] text-[#f5f5f5] sm:text-5xl lg:text-6xl">
@@ -261,8 +261,8 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 pb-24 pt-12 sm:px-8 lg:px-10">
-        <div className="rounded-4xl border border-white/10 bg-[#0a0a0a]/80 p-8 md:p-12">
+      <section className="mx-auto max-w-7xl px-5 pb-16 pt-8 sm:px-8 sm:pb-24 sm:pt-12 lg:px-10">
+        <div className="rounded-4xl border border-white/10 bg-[#0a0a0a]/80 p-5 sm:p-8 md:p-12">
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
             <div>
               <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{t.sectionContact}</p>

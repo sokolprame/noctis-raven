@@ -78,7 +78,7 @@ export default function SiteHeader() {
                   <span className="text-[#a1a1a1]">↗</span>
                 </Link>
               ))}
-              <div className="flex items-center justify-between pt-2 text-[10px] text-[#a1a1a1]">
+              <div className="flex flex-col items-start gap-3 pt-2 text-[10px] text-[#a1a1a1] sm:flex-row sm:items-center sm:justify-between">
                 <LanguageToggle />
                 <span className="inline-flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-[#ff1a4d]" />

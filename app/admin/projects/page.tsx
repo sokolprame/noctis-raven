@@ -13,12 +13,12 @@ export default async function AdminProjectsPage() {
 
   return (
     <main className="min-h-screen bg-[#050505] text-[#f8f5f5]">
-      <div className="mx-auto max-w-6xl px-6 py-16 sm:px-8">
-        <div className="rounded-[36px] border border-white/10 bg-[#0b0a0f]/95 p-10 shadow-[0_40px_120px_rgba(0,0,0,0.45)]">
+      <div className="mx-auto max-w-6xl px-5 py-10 sm:px-8 sm:py-16">
+        <div className="rounded-[28px] border border-white/10 bg-[#0b0a0f]/95 p-5 shadow-[0_40px_120px_rgba(0,0,0,0.45)] sm:rounded-[36px] sm:p-10">
           <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-[#8f8a91]">Админ-панель</p>
-              <h1 className="mt-3 text-4xl font-semibold uppercase tracking-[0.24em] text-[#f8f5f5]">Каталог проектов</h1>
+              <h1 className="mt-3 text-2xl font-semibold uppercase tracking-[0.12em] text-[#f8f5f5] sm:text-4xl sm:tracking-[0.24em]">Каталог проектов</h1>
               <p className="mt-3 max-w-2xl text-base leading-7 text-[#b9b2bc]">
                 Интерфейс напоминает таблицу Django admin: фильтрация, метки и быстрый доступ к управлению.
               </p>
@@ -31,8 +31,8 @@ export default async function AdminProjectsPage() {
             </Link>
           </div>
 
-          <div className="overflow-hidden rounded-[28px] border border-white/10 bg-[#09090f]/80">
-            <table className="min-w-full border-collapse text-left text-sm">
+          <div className="overflow-x-auto rounded-[28px] border border-white/10 bg-[#09090f]/80">
+            <table className="min-w-[680px] border-collapse text-left text-sm">
               <thead className="bg-white/5 text-[#b9b2bc]">
                 <tr>
                   <th className="px-6 py-4 uppercase tracking-[0.25em]">ID</th>

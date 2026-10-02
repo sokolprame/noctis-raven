@@ -20,9 +20,9 @@ export default async function ContactPage({ searchParams }: { searchParams?: Pro
   return (
     <main className="min-h-screen bg-[#050505] text-[#f5f5f5]">
       <SiteHeader />
-      <div className="mx-auto max-w-6xl px-6 py-16 sm:px-8 lg:px-10">
+      <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
         <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{isRu ? "КОНТАКТЫ" : "CONTACT"}</p>
-        <h1 className="mt-6 text-5xl font-medium uppercase tracking-[-0.06em] text-[#f5f5f5] sm:text-6xl">
+        <h1 className="mt-6 text-4xl font-medium uppercase leading-[0.98] tracking-[-0.06em] text-[#f5f5f5] sm:text-6xl">
           {isRu ? "ЕСТЬ ИДЕЯ?" : "HAVE AN IDEA?"}
           <br />
           {isRu ? "Давайте создадим это." : "LET'S BUILD IT."}

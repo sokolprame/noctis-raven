@@ -99,16 +99,16 @@ export default async function ProjectDetailPage({
   return (
     <main className="min-h-screen overflow-hidden bg-[#050505] text-[#f5f5f5]">
       <SiteHeader />
-      <div className="mx-auto max-w-7xl px-6 pb-20 pt-8 sm:px-8 lg:px-10">
+      <div className="mx-auto max-w-7xl px-5 pb-16 pt-6 sm:px-8 sm:pb-20 sm:pt-8 lg:px-10">
         <Link href={withLocale("/work", locale)} className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-[#a1a1a1] transition hover:text-[#ff1a4d]">
           <ArrowLeft className="h-4 w-4" />
           {labels.back}
         </Link>
 
-        <section className="pb-12 pt-12 sm:pt-16 lg:pb-16">
+        <section className="pb-10 pt-10 sm:pb-12 sm:pt-16 lg:pb-16">
           <CaseReveal>
             <p className="text-[10px] uppercase tracking-[0.42em] text-[#a1a1a1]">{labels.project} / {project.category}</p>
-            <h1 className="mt-5 max-w-6xl text-5xl font-medium uppercase leading-[0.9] tracking-[-0.065em] text-[#f5f5f5] sm:text-7xl lg:text-8xl">
+            <h1 className="mt-5 max-w-6xl text-4xl font-medium uppercase leading-[0.92] tracking-[-0.065em] text-[#f5f5f5] sm:text-7xl lg:text-8xl">
               {project.title}
             </h1>
             <div className="mt-9 grid gap-6 border-t border-white/10 pt-6 sm:grid-cols-3">
@@ -130,7 +130,7 @@ export default async function ProjectDetailPage({
               src={project.previewUrl}
               alt={`${project.title} — ${copy.summary}`}
               fit={project.previewFit}
-              className="aspect-video min-h-85 rounded-[28px] border border-white/10 bg-[#100d0c] sm:min-h-110 sm:rounded-[36px] lg:min-h-140"
+              className="aspect-[4/3] min-h-64 rounded-[24px] border border-white/10 bg-[#100d0c] sm:aspect-video sm:min-h-110 sm:rounded-[36px] lg:min-h-140"
               imageClassName="transition-transform duration-700 group-hover:scale-[1.025]"
             >
               <div className="flex h-full items-end p-6 sm:p-10">
@@ -175,7 +175,7 @@ export default async function ProjectDetailPage({
           <div className="grid gap-4 sm:grid-cols-2">
             {approach.map((item, index) => (
               <CaseReveal key={item.title} delay={index * 0.045} className="h-full">
-                <article className="h-full rounded-3xl border border-white/10 bg-[#0a0a0a] p-6 sm:p-8">
+                <article className="h-full rounded-[24px] border border-white/10 bg-[#0a0a0a] p-5 sm:rounded-3xl sm:p-8">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] tracking-[0.3em] text-[#ff1a4d]">0{index + 1}</span>
                     <span className="h-px w-12 bg-white/15" />
@@ -210,10 +210,10 @@ export default async function ProjectDetailPage({
               <div className="grid gap-10 sm:grid-cols-2">
                 <div>
                   <p className="text-[9px] uppercase tracking-[0.35em] text-[#777]">{labels.palette}</p>
-                  <div className="mt-5 flex gap-3">
+                  <div className="mt-5 flex gap-2 sm:gap-3">
                     {design.colors.map((color) => (
                       <div key={color.value} className="min-w-0 flex-1">
-                        <div className="h-16 rounded-xl border border-white/10 sm:h-20" style={{ backgroundColor: color.value }} />
+                        <div className="h-14 rounded-xl border border-white/10 sm:h-20" style={{ backgroundColor: color.value }} />
                         <p className="mt-2 truncate text-[9px] text-[#aaa]">{color.label}</p>
                         <p className="text-[9px] uppercase tracking-widest text-[#666]">{color.value}</p>
                       </div>
@@ -268,7 +268,7 @@ export default async function ProjectDetailPage({
               src={project.previewUrl}
               alt={`${project.title} — ${labels.final}`}
               fit={project.previewFit}
-              className="aspect-video min-h-87.5 rounded-[28px] border border-white/10 bg-[#100d0c] sm:min-h-120 sm:rounded-[36px] lg:min-h-150"
+              className="aspect-[4/3] min-h-64 rounded-[24px] border border-white/10 bg-[#100d0c] sm:aspect-video sm:min-h-120 sm:rounded-[36px] lg:min-h-150"
               imageClassName="transition-transform duration-700 group-hover:scale-[1.025]"
             >
               <div className="flex h-full items-end justify-between gap-6 p-6 sm:p-10">
@@ -292,15 +292,15 @@ export default async function ProjectDetailPage({
                 src={nextProject.previewUrl}
                 alt={`${labels.next}: ${nextProject.title}`}
                 fit={nextProject.previewFit}
-                className="flex min-h-72.5 items-end rounded-[28px] border border-white/10 bg-[#100d0c] transition-colors duration-500 group-hover:border-[#ff1a4d]/50 sm:min-h-97.5 sm:rounded-[36px] lg:min-h-115"
+                className="flex min-h-64 items-end rounded-[24px] border border-white/10 bg-[#100d0c] transition-colors duration-500 group-hover:border-[#ff1a4d]/50 sm:min-h-97.5 sm:rounded-[36px] lg:min-h-115"
                 imageClassName="transition-transform duration-1000 group-hover:scale-[1.035]"
               >
-                <div className="flex w-full items-end justify-between gap-6 p-7 sm:p-12">
+                <div className="flex w-full items-end justify-between gap-3 p-5 sm:gap-6 sm:p-12">
                   <div>
                     <p className="text-[9px] uppercase tracking-[0.35em] text-white/60">{labels.nextHint}</p>
-                    <h2 className="mt-3 text-4xl font-medium uppercase leading-none tracking-[-0.06em] text-white transition-transform duration-500 group-hover:translate-x-2 sm:text-6xl lg:text-7xl">{nextProject.title}</h2>
+                    <h2 className="mt-3 text-3xl font-medium uppercase leading-none tracking-[-0.06em] text-white transition-transform duration-500 group-hover:translate-x-2 sm:text-6xl lg:text-7xl">{nextProject.title}</h2>
                   </div>
-                  <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/30 bg-black/20 text-white transition duration-500 group-hover:rotate-45 group-hover:border-[#ff1a4d] group-hover:bg-[#b3002d]">
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/30 bg-black/20 text-white transition duration-500 group-hover:rotate-45 group-hover:border-[#ff1a4d] group-hover:bg-[#b3002d] sm:h-12 sm:w-12">
                     <ArrowRight className="h-5 w-5" />
                   </span>
                 </div>

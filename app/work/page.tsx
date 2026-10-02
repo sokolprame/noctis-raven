@@ -13,9 +13,9 @@ export default async function WorkPage({ searchParams }: { searchParams?: Promis
   return (
     <main className="min-h-screen bg-[#050505] text-[#f5f5f5]">
       <SiteHeader />
-      <div className="mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:px-10">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
         <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{isRu ? "РАБОТЫ" : "WORK"}</p>
-        <h1 className="mt-6 text-5xl font-medium uppercase tracking-[-0.06em] text-[#f5f5f5] sm:text-6xl">
+        <h1 className="mt-6 text-4xl font-medium uppercase leading-[0.98] tracking-[-0.06em] text-[#f5f5f5] sm:text-6xl">
           {isRu ? "ИЗБРАННЫЕ РАБОТЫ" : "SELECTED WORK"}
         </h1>
 
@@ -24,7 +24,7 @@ export default async function WorkPage({ searchParams }: { searchParams?: Promis
             <Link
               key={project.slug}
               href={withLocale(`/work/${project.slug}`, locale)}
-              className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-[#0a0a0a] p-6 transition hover:border-[#ff1a4d]/60"
+              className="group relative overflow-hidden rounded-[24px] border border-white/10 bg-[#0a0a0a] p-4 transition hover:border-[#ff1a4d]/60 sm:rounded-[28px] sm:p-6"
             >
               <div className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_top_right,rgba(179,0,45,0.25),transparent_42%)]" />
               <div className="relative">
@@ -35,7 +35,7 @@ export default async function WorkPage({ searchParams }: { searchParams?: Promis
                 <div
                   role="img"
                   aria-label={`${project.title} — ${project.copy[locale].summary}`}
-                  className="mb-5 h-52 overflow-hidden rounded-[20px] border border-white/10 bg-[#111]"
+                  className="mb-5 h-48 overflow-hidden rounded-[18px] border border-white/10 bg-[#111] sm:h-52 sm:rounded-[20px]"
                   style={{
                     backgroundImage: `linear-gradient(180deg, rgba(5,5,5,0.02), rgba(5,5,5,0.44)), url("${project.previewUrl}")`,
                     backgroundPosition: "center",
