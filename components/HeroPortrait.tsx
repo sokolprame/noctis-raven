@@ -12,7 +12,7 @@ export default function HeroPortrait({ locale }: { locale: Locale }) {
         <div className="absolute -inset-10 bg-[radial-gradient(ellipse_at_50%_45%,rgba(179,0,45,0.24),transparent_65%)] blur-2xl" />
         <PixelReveal locale={locale} />
         <div className="absolute inset-0 bg-linear-to-t from-black via-black/10 to-black/5" />
-        <div className="absolute inset-4 rounded-[calc(var(--radius-4xl)-1rem)] border border-white/15" />
+        <div className="absolute inset-4 rounded-[calc(var(--radius-4xl)-1rem)] border border-white/15"/>
         <div className="absolute left-7 top-7 flex items-center gap-3 text-[9px] uppercase tracking-[0.32em] text-white/70 sm:left-9 sm:top-9">
           <span className="h-1.5 w-1.5 rounded-full bg-[#ff1a4d] shadow-[0_0_14px_rgba(255,26,77,0.9)]" />
           {ru ? "ДИЗАЙН · КОД · ИСКУССТВО" : "DESIGN · CODE · ART"}

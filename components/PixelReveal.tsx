@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { useReducedMotion } from "framer-motion";
 
 type Pixel = {
   targetX: number;
@@ -30,7 +29,6 @@ const playedKey = "noctis:hero-pixel-reveal:v5";
 export default function PixelReveal({ locale }: { locale: "ru" | "en" }) {
   const imageRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const image = imageRef.current;
@@ -43,42 +41,6 @@ export default function PixelReveal({ locale }: { locale: "ru" | "en" }) {
       if (canvas) canvas.style.opacity = "0";
     };
 
-    const revealWithFade = (duration = 900) => {
-      if (canvas) canvas.style.opacity = "0";
-      if (typeof image.animate !== "function") {
-        revealImmediately();
-        return;
-      }
-
-      const fade = image.animate(
-        [{ opacity: 0 }, { opacity: 1 }],
-        { duration, easing: "ease-out", fill: "both" },
-      );
-      fade.onfinish = () => {
-        image.style.opacity = "1";
-        fade.cancel();
-      };
-    };
-
-    const revealWhenImageReady = (animate: boolean) => {
-      const showImage = () => {
-        if (animate) revealWithFade(850);
-        else revealImmediately();
-      };
-
-      if (image.complete && image.naturalWidth) {
-        showImage();
-        return;
-      }
-
-      image.addEventListener("load", showImage, { once: true });
-      image.addEventListener("error", revealImmediately, { once: true });
-      return () => {
-        image.removeEventListener("load", showImage);
-        image.removeEventListener("error", revealImmediately);
-      };
-    };
-
     let alreadyPlayed = false;
     try {
       alreadyPlayed = window.sessionStorage.getItem(playedKey) === "1";
@@ -86,12 +48,14 @@ export default function PixelReveal({ locale }: { locale: "ru" | "en" }) {
       // Continue with the one-time reveal when storage is unavailable.
     }
 
-    if (reduceMotion || alreadyPlayed) {
-      return revealWhenImageReady(reduceMotion === true && !alreadyPlayed);
+    if (alreadyPlayed) {
+      revealImmediately();
+      return;
     }
 
     if (!canvas || !context) {
-      return revealWhenImageReady(true);
+      revealImmediately();
+      return;
     }
 
     let frameId = 0;
@@ -133,9 +97,13 @@ export default function PixelReveal({ locale }: { locale: "ru" | "en" }) {
       try {
         pixelsData = sampleContext.getImageData(0, 0, sample.width, sample.height).data;
       } catch {
-        revealWithFade();
+        revealImmediately();
         return;
       }
+
+      // Hide the real photo only after we know the pixel canvas is ready.
+      image.style.opacity = "0";
+      canvas.style.opacity = "1";
       const cellSize = width < 480 ? 16 : 13;
       const pixels: Pixel[] = [];
 
@@ -249,7 +217,7 @@ export default function PixelReveal({ locale }: { locale: "ru" | "en" }) {
       image.removeEventListener("load", reveal);
       image.removeEventListener("error", revealImmediately);
     };
-  }, [reduceMotion]);
+  }, []);
 
   return (
     <>
@@ -260,9 +228,9 @@ export default function PixelReveal({ locale }: { locale: "ru" | "en" }) {
         fill
         priority
         sizes="(max-width: 1024px) 90vw, 38vw"
-        className="object-cover object-center opacity-0 transition-transform duration-700 group-hover:scale-[1.04]"
+        className="object-cover object-center opacity-100 transition-transform duration-700 group-hover:scale-[1.04]"
       />
-      <canvas ref={canvasRef} aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full" />
+      <canvas ref={canvasRef} aria-hidden="true" className="pointer-events-none absolute inset-0 z-10 h-full w-full opacity-0" />
     </>
   );
 }
