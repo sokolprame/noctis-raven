@@ -2,11 +2,43 @@
 
 import { FormEvent, useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Send } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
-export default function ContactSection() {
+export default function ContactSection({ locale }: { locale: "ru" | "en" }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
   const [feedback, setFeedback] = useState("");
+  const ru = locale === "ru";
+  const t = ru
+    ? {
+        name: "Имя",
+        namePlaceholder: "Как к вам обращаться",
+        email: "Эл. почта",
+        topic: "Тип проекта",
+        choose: "Выберите направление",
+        topics: ["Веб-дизайн", "Разработка сайта", "Брендинг", "Иллюстрация / арт", "Другое"],
+        message: "Сообщение",
+        messagePlaceholder: "Коротко опишите задачу, сроки или идею",
+        submit: "Отправить сообщение",
+        sending: "Отправляю…",
+        sent: "Сообщение отправлено. Я свяжусь с вами в ближайшее время.",
+        mail: "Открываю почтовое приложение для отправки сообщения.",
+        invalid: "Проверьте заполнение полей.",
+      }
+    : {
+        name: "Name",
+        namePlaceholder: "How should I address you?",
+        email: "Email address",
+        topic: "Project type",
+        choose: "Choose a service",
+        topics: ["Web design", "Website development", "Branding", "Illustration / art", "Other"],
+        message: "Message",
+        messagePlaceholder: "Briefly describe the brief, timing, or first idea",
+        submit: "Send message",
+        sending: "Sending…",
+        sent: "Your message has been sent. I’ll get back to you soon.",
+        mail: "Opening your email app to send the message.",
+        invalid: "Please check the fields and try again.",
+      };
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -14,111 +46,77 @@ export default function ContactSection() {
     setFeedback("");
     const form = event.currentTarget;
     const data = new FormData(form);
-    const payload = {
-      name: String(data.get("name") ?? ""),
-      email: String(data.get("email") ?? ""),
-      message: String(data.get("message") ?? ""),
-    };
+    const name = String(data.get("name") ?? "");
+    const email = String(data.get("email") ?? "");
+    const subject = String(data.get("subject") ?? "");
+    const message = String(data.get("message") ?? "");
+    const fullMessage = [subject, message].filter(Boolean).join("\n\n");
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ name, email, message: fullMessage }),
       });
       if (!response.ok) {
         if (response.status === 400) {
           const result = (await response.json()) as { message?: string };
           setStatus("idle");
-          setFeedback(result.message ?? "Проверьте заполнение полей.");
+          setFeedback(result.message ?? t.invalid);
           return;
         }
         throw new Error("Contact API unavailable");
       }
       form.reset();
-      setFeedback("Заявка отправлена. Я свяжусь с вами в ближайшее время.");
+      setFeedback(t.sent);
     } catch {
-      const subject = encodeURIComponent(`Новая заявка от ${payload.name}`);
-      const body = encodeURIComponent(`Имя: ${payload.name}\nEmail: ${payload.email}\n\n${payload.message}`);
-      window.location.href = `mailto:raven4noctis@gmail.com?subject=${subject}&body=${body}`;
-      setFeedback("Открываю почтовое приложение для отправки заявки.");
+      const mailSubject = encodeURIComponent(`${ru ? "Сообщение от" : "Message from"} ${name}${subject ? ` · ${subject}` : ""}`);
+      const body = encodeURIComponent(`${t.name}: ${name}\n${t.email}: ${email}\n\n${fullMessage}`);
+      window.location.href = `mailto:raven4noctis@gmail.com?subject=${mailSubject}&body=${body}`;
+      setFeedback(t.mail);
     }
     setStatus("success");
   }
 
-  return (
-    <section id="contact" className="relative mx-auto max-w-[1600px] px-6 pb-28 sm:px-8 lg:px-10">
-      <div className="grid gap-10 lg:grid-cols-[0.9fr_0.7fr] lg:items-center">
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7 }}
-        >
-          <p className="text-xs uppercase tracking-[0.4em] text-[#8d8890]">Контакт</p>
-          <h2 className="mt-4 text-4xl font-semibold uppercase tracking-[0.24em] text-[#f8f5f5] sm:text-5xl">
-            Начнём новый проект
-          </h2>
-          <p className="mt-5 max-w-xl text-base leading-8 text-[#b9b2bc]">
-            Обсудим визуальную идентичность, интерфейс или арт-проект и найдём для него точную форму.
-          </p>
-          <div className="mt-8 flex items-center gap-4 rounded-[28px] border border-white/10 bg-[#0b0a0f]/80 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.24)]">
-            <Mail className="h-6 w-6 text-[#ff1a4d]" />
-            <div>
-              <p className="text-sm uppercase tracking-[0.35em] text-[#8f8a91]">Связаться</p>
-              <p className="mt-2 text-sm text-[#d7d2d9]">raven4noctis@gmail.com</p>
-            </div>
-          </div>
-        </motion.div>
+  const fieldClass = "min-h-12 w-full border border-white/10 bg-[#090909] px-3.5 py-3 text-[13px] text-white outline-none transition placeholder:text-white/30 focus:border-[#c8102e] focus:ring-1 focus:ring-[#c8102e]/25 sm:px-4 sm:py-3.5 sm:text-sm";
+  const labelClass = "grid gap-2 text-[9px] font-medium uppercase tracking-[0.18em] text-white/60 sm:gap-2.5 sm:text-[10px] sm:tracking-[0.2em]";
 
-        <motion.form
-          onSubmit={handleSubmit}
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7, delay: 0.08 }}
-          className="rounded-2xl border border-white/10 bg-[#101014]/90 p-8 shadow-[0_24px_70px_rgba(0,0,0,0.24)]"
-        >
-          <div className="grid gap-4 sm:grid-cols-2">
-            <label className="space-y-2 text-sm text-[#d1cfd2]">
-              <span>Имя</span>
-              <input
-                name="name"
-                type="text"
-                placeholder="Ваше имя"
-                className="w-full rounded-3xl border border-white/10 bg-[#090909]/90 px-4 py-3 text-sm text-[#f3f1f4] outline-none transition focus:border-[#ff1a4d] focus:ring-1 focus:ring-[#ff1a4d]/30"
-              />
-            </label>
-            <label className="space-y-2 text-sm text-[#d1cfd2]">
-              <span>Эл. почта</span>
-              <input
-                name="email"
-                type="email"
-                placeholder="ваш@почта.рф"
-                className="w-full rounded-3xl border border-white/10 bg-[#090909]/90 px-4 py-3 text-sm text-[#f3f1f4] outline-none transition focus:border-[#ff1a4d] focus:ring-1 focus:ring-[#ff1a4d]/30"
-              />
-            </label>
-          </div>
-          <label className="mt-4 space-y-2 text-sm text-[#d1cfd2]">
-            <span>Кратко о проекте</span>
-            <textarea
-              name="message"
-              rows={5}
-              placeholder="Опишите ваш проект в нескольких строках"
-              className="w-full rounded-3xl border border-white/10 bg-[#090909]/90 px-4 py-3 text-sm text-[#f3f1f4] outline-none transition focus:border-[#ff1a4d] focus:ring-1 focus:ring-[#ff1a4d]/30"
-            />
+  return (
+    <section id="contact-form" className="relative">
+      <motion.form
+        onSubmit={handleSubmit}
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.5, delay: 0.04 }}
+        className="grid gap-2.5 sm:gap-3"
+      >
+        <div className="grid gap-3 md:grid-cols-2 md:gap-4">
+          <label className={labelClass}>
+            <span>{t.name}</span>
+            <input name="name" type="text" placeholder={t.namePlaceholder} autoComplete="name" maxLength={100} required className={fieldClass} />
           </label>
-          <button
-            type="submit"
-            disabled={status === "loading"}
-            className="mt-6 inline-flex items-center justify-center gap-3 rounded-full bg-[#d8a0ad] px-8 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#1b1216] transition hover:bg-[#edbac5] disabled:cursor-wait disabled:opacity-60"
-          >
-            {status === "loading" ? "Отправка..." : "Отправить заявку"}
-            <Send className="h-4 w-4" />
-          </button>
-          {feedback ? <p className="mt-4 text-sm text-[#d8a0ad]" aria-live="polite">{feedback}</p> : null}
-        </motion.form>
-      </div>
+          <label className={labelClass}>
+            <span>{t.email}</span>
+            <input name="email" type="email" placeholder="name@example.com" autoComplete="email" maxLength={254} required className={fieldClass} />
+          </label>
+        </div>
+        <label className={labelClass}>
+          <span>{t.topic}</span>
+          <select name="subject" defaultValue="" required className={`${fieldClass} appearance-none`}>
+            <option value="" disabled>{t.choose}</option>
+            {t.topics.map((topic) => <option key={topic} value={topic} className="bg-[#090909]">{topic}</option>)}
+          </select>
+        </label>
+        <label className={labelClass}>
+          <span>{t.message}</span>
+          <textarea name="message" rows={4} placeholder={t.messagePlaceholder} maxLength={5000} required className={`${fieldClass} min-h-32 resize-y`} />
+        </label>
+        <button type="submit" disabled={status === "loading"} className="mt-1 inline-flex min-h-12 w-full items-center justify-center gap-2 bg-[#c8102e] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#ed1739] disabled:cursor-wait disabled:opacity-60 sm:py-4 sm:text-[11px]">
+          {status === "loading" ? t.sending : t.submit}<ArrowRight className="h-4 w-4" />
+        </button>
+        {feedback ? <p className="text-[10px] text-[#d8a0ad]" aria-live="polite">{feedback}</p> : null}
+      </motion.form>
     </section>
   );
 }

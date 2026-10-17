@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Circle, Mail, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Circle, Mail } from "lucide-react";
+import BrandMark from "@/components/BrandMark";
 import CustomCursor from "@/components/CustomCursor";
 import HeroPortrait from "@/components/HeroPortrait";
-import LanguageToggle from "@/components/LanguageToggle";
 import ProjectFilter from "@/components/ProjectFilter";
+import SiteHeader from "@/components/SiteHeader";
 import { resolveLocale, withLocale } from "@/lib/i18n";
 
 const expertise = [
@@ -57,8 +58,8 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
         sectionContact: "04 / КОНТАКТЫ",
         philosophy: "ФИЛОСОФИЯ",
         philosophyText: ["СОЗДАВАЙ С ЦЕЛЬЮ.", "БЕЙСЯ ЗА ДЕТАЛИ.", "ДЕЛАЙ ВЕЩЬ, КОТОРАЯ ЧУВСТВУЕТСЯ ЖИВОЙ."],
-        contactTitle: ["Есть идея?", "Давайте создадим это."],
-        contactText: "Открыт к freelance-проектам, креативным коллаборациям и интересным идеям.",
+        contactTitle: ["Есть идея?", "Воплотим её в жизнь."],
+        contactText: "Открыт к фриланс-проектам, творческим коллаборациям и интересным идеям.",
         cta: "Начать проект",
         email: "Почта",
       }
@@ -82,55 +83,25 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
         email: "EMAIL",
       };
 
-  const navItems = [
-    { label: t.nav.work, href: withLocale("/work", locale) },
-    { label: t.nav.about, href: withLocale("/about", locale) },
-    { label: t.nav.contact, href: withLocale("/contact", locale) },
-  ];
-
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#050505] text-[#f5f5f5]">
+    <main className="relative min-h-screen overflow-x-clip bg-[#050505] text-[#f5f5f5]">
       <CustomCursor />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(179,0,45,0.14),transparent_20%),radial-gradient(circle_at_bottom_right,rgba(255,26,77,0.06),transparent_25%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_16%_8%,rgba(200,16,46,0.18),transparent_31%),radial-gradient(circle_at_bottom_right,rgba(255,26,77,0.06),transparent_25%)]" />
 
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#050505]/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4 sm:px-8 lg:px-10">
-          <Link href={withLocale("/", locale)} className="flex items-center gap-3 text-sm font-medium uppercase tracking-[0.35em] text-[#f5f5f5]">
-            <Sparkles className="h-4 w-4 text-[#b3002d]" />
-            NOCTIS
-          </Link>
-
-          <nav className="hidden items-center gap-8 text-[11px] uppercase tracking-[0.3em] text-[#d3d3d3] md:flex">
-            {navItems.map((item) => (
-              <Link key={item.label} href={item.href} className="transition hover:text-[#ff1a4d]">
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="hidden items-center gap-4 text-[10px] uppercase tracking-[0.25em] text-[#a1a1a1] sm:flex">
-            <LanguageToggle />
-            <span className="inline-flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-[#ff1a4d] shadow-[0_0_18px_rgba(255,26,77,0.9)]" />
-              {t.status}
-            </span>
-          </div>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section className="relative mx-auto max-w-7xl px-5 pb-12 pt-8 sm:px-8 sm:pb-16 sm:pt-12 lg:px-10 lg:pb-24 lg:pt-20">
-        <div className="grid items-end gap-8 sm:gap-12 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="space-y-8">
-            <p className="inline-flex items-center gap-3 border border-white/10 bg-white/3 px-4 py-2 text-[10px] uppercase tracking-[0.38em] text-[#a1a1a1]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#ff1a4d]" />
+        <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-8 lg:gap-12">
+          <div className="space-y-8 lg:pb-8">
+            <p className="inline-flex items-center gap-3 border-l-2 border-[#c8102e] bg-white/[0.035] px-4 py-3 text-[9px] font-semibold uppercase tracking-[0.32em] text-[#c8c2c3] sm:text-[10px]">
+              <span className="h-2 w-2 bg-[#c8102e]" />
               {t.badge}
             </p>
 
             <div className="space-y-4">
-              <h1 className="max-w-4xl text-5xl font-medium uppercase leading-[0.9] tracking-[-0.06em] text-[#f5f5f5] sm:text-6xl lg:text-8xl">
-                {t.heroTitle[0]}
-                <br />
-                {t.heroTitle[1]}
+              <h1 className="max-w-5xl text-[clamp(2.8rem,7.4vw,7.2rem)] font-black uppercase leading-[0.8] tracking-[-0.085em] text-[#f5f2f1]">
+                <span className="block">{t.heroTitle[0]}</span>
+                <span className="mt-3 block text-[#c8102e]">{t.heroTitle[1]}</span>
               </h1>
               <p className="max-w-xl text-base leading-7 text-[#b5b5b5] sm:text-lg">
                 {t.heroText}
@@ -140,14 +111,14 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
             <div className="flex flex-wrap gap-4">
               <Link
                 href={withLocale("/work", locale)}
-                className="inline-flex items-center gap-3 rounded-full bg-[#b3002d] px-6 py-3 text-[11px] font-medium uppercase tracking-[0.25em] text-[#f5f5f5] transition hover:bg-[#ff1a4d]"
+                className="inline-flex items-center gap-3 bg-[#c8102e] px-6 py-4 text-[10px] font-bold uppercase tracking-[0.23em] text-[#fff] transition hover:bg-[#ed1739]"
               >
                 {t.primary}
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href={withLocale("/about", locale)}
-                className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-[#0a0a0a] px-6 py-3 text-[11px] font-medium uppercase tracking-[0.25em] text-[#f5f5f5] transition hover:border-[#b3002d]/70 hover:text-[#ffb3c7]"
+                className="inline-flex items-center gap-3 border border-white/20 bg-transparent px-6 py-4 text-[10px] font-bold uppercase tracking-[0.23em] text-[#f5f5f5] transition hover:border-[#c8102e] hover:text-[#ffb3c7]"
               >
                 {t.secondary}
               </Link>
@@ -157,6 +128,14 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
           <HeroPortrait locale={locale} />
         </div>
       </section>
+
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div className="flex items-center gap-4 border-y border-white/10 py-4 text-[9px] font-semibold uppercase tracking-[0.28em] text-white/45 sm:text-[10px]">
+          <span className="h-2 w-2 bg-[#c8102e]" />
+          <span>{locale === "ru" ? "НЕЗАВИСИМАЯ ТВОРЧЕСКАЯ ПРАКТИКА" : "INDEPENDENT CREATIVE PRACTICE"}</span>
+          <span className="ml-auto text-right">{locale === "ru" ? "ОТ ИДЕИ ДО РЕАЛИЗАЦИИ" : "CONCEPT TO REALITY"}</span>
+        </div>
+      </div>
 
       <section id="work" className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
         <div className="mb-10 flex items-end justify-between gap-6 border-b border-white/10 pb-6">
@@ -207,8 +186,8 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
 
         <div className="grid gap-6 lg:grid-cols-3">
           {expertise.map((group) => (
-            <div key={group.label} className="rounded-[28px] border border-white/10 bg-[#0a0a0a]/80 p-6">
-              <p className="text-[11px] uppercase tracking-[0.38em] text-[#ff1a4d]">{group.label}</p>
+            <div key={group.label} className="border border-white/10 bg-[#0a0a0a]/80 p-6">
+              <p className="border-b border-white/10 pb-4 text-[11px] font-bold uppercase tracking-[0.38em] text-[#ed1739]">{group.label}</p>
               <ul className="mt-6 space-y-3 text-sm text-[#d8d8d8]">
                 {group.items.map((item) => (
                   <li key={item} className="flex items-center gap-3 border-b border-white/5 pb-2 last:border-b-0 last:pb-0">
@@ -229,7 +208,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
 
         <div className="grid gap-6 lg:grid-cols-3">
           {services.map((service) => (
-            <div key={service.index} className="rounded-[28px] border border-white/10 bg-[#0a0a0a]/80 p-6">
+            <div key={service.index} className="border border-white/10 bg-[#0a0a0a]/80 p-6">
               <div className="mb-6 flex items-center justify-between">
                 <span className="text-[11px] uppercase tracking-[0.35em] text-[#a1a1a1]">{service.index}</span>
                 <span className="ml-4 h-px flex-1 bg-white/10" />
@@ -249,7 +228,8 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
-        <div className="rounded-4xl border border-white/10 bg-[linear-gradient(135deg,rgba(179,0,45,0.08),rgba(255,255,255,0.01))] p-8 md:p-12">
+          <div className="relative overflow-hidden border border-white/10 bg-[linear-gradient(135deg,rgba(200,16,46,0.12),rgba(255,255,255,0.01))] p-8 md:p-12">
+            <span aria-hidden="true" className="absolute -right-8 -top-16 select-none text-[15rem] font-black leading-none text-white/[0.025]">N</span>
           <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{t.philosophy}</p>
           <h3 className="mt-8 max-w-4xl text-4xl font-medium uppercase tracking-[-0.06em] text-[#f5f5f5] sm:text-5xl lg:text-6xl">
             {t.philosophyText.map((line) => (
@@ -262,7 +242,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
       </section>
 
       <section className="mx-auto max-w-7xl px-5 pb-16 pt-8 sm:px-8 sm:pb-24 sm:pt-12 lg:px-10">
-        <div className="rounded-4xl border border-white/10 bg-[#0a0a0a]/80 p-5 sm:p-8 md:p-12">
+        <div className="border border-white/10 bg-[#0a0a0a]/80 p-5 sm:p-8 md:p-12">
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
             <div>
               <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{t.sectionContact}</p>
@@ -290,8 +270,8 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
       </section>
 
       <footer className="border-t border-white/10 bg-[#050505]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-8 text-[11px] uppercase tracking-[0.28em] text-[#a1a1a1] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
-          <p>© 2026 NOCTIS RAVEN</p>
+        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-8 text-[10px] uppercase tracking-[0.28em] text-[#a1a1a1] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
+          <p className="flex items-center gap-3"><BrandMark compact /> <span className="text-white/35">© 2026</span></p>
           <div className="flex flex-wrap gap-4 text-[#d8d8d8]">
             <a href="https://t.me/noctisraven" target="_blank" rel="noreferrer">Telegram</a>
             <a href="https://vk.com/noctisraven" target="_blank" rel="noreferrer">VK</a>

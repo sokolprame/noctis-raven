@@ -7,10 +7,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await request.json();
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ ok: false, message: "Invalid JSON" }, { status: 400 });
+  }
+
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return NextResponse.json({ ok: false, message: "Invalid payload" }, { status: 400 });
+  }
+
   const { type, payload } = body as { type?: "art" | "web"; payload?: Record<string, unknown> };
 
-  if (!type || !payload) {
+  if ((type !== "art" && type !== "web") || !payload || typeof payload !== "object" || Array.isArray(payload)) {
     return NextResponse.json({ ok: false, message: "Invalid payload" }, { status: 400 });
   }
 
@@ -41,10 +51,20 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await request.json();
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ ok: false, message: "Invalid JSON" }, { status: 400 });
+  }
+
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return NextResponse.json({ ok: false, message: "Invalid payload" }, { status: 400 });
+  }
+
   const { type, id } = body as { type?: "art" | "web"; id?: string };
 
-  if (!type || !id) {
+  if ((type !== "art" && type !== "web") || typeof id !== "string" || !id) {
     return NextResponse.json({ ok: false, message: "Invalid payload" }, { status: 400 });
   }
 

@@ -1,25 +1,8 @@
-PostgreSQL + pgAdmin4 setup (короткая инструкция)
+# PostgreSQL configuration
 
-1) Установка и запуск PostgreSQL
-- Установи PostgreSQL 15+ и pgAdmin4 на свою машину.
-- Создай базу данных, например `noctis_raven`.
+1. Create a PostgreSQL 15+ database, for example `noctis_raven`.
+2. Copy `.env.example` to `.env.local` and replace every placeholder. Generate `ADMIN_SESSION_SECRET` as a private random value with at least 32 characters (for example, `openssl rand -base64 48`). Use a unique, long admin password.
+3. Apply `migrations/001_create_projects.sql`, `migrations/002_portfolio_tables.sql`, and `migrations/003_contact_requests.sql` in that order using pgAdmin Query Tool or `psql`.
+4. Optionally seed legacy project records with `npm run seed`. Current public work and case pages are maintained in `lib/site-data.ts`.
 
-2) Подключение в pgAdmin4
-- Создай подключение к локальному серверу, укажи хост `localhost`, порт `5432`, пользователя и пароль.
-- В разделе "Query Tool" выполни SQL из `migrations/001_create_projects.sql`.
-
-3) Переменные окружения
-- Создай `.env.local` в корне проекта с:
-
-  DATABASE_URL=postgresql://USER:PASSWORD@localhost:5432/noctis_raven
-  ADMIN_PASSWORD=your_admin_password_here
-
-4) Заполнение демо-данными
-- Установи `ts-node` глобально или добавь в devDependencies.
-- Запусти: `npm run seed` (он использует `DATABASE_URL`).
-
-5) Просмотр в pgAdmin
-- Открой таблицу `projects` и убедись, что строки добавились.
-
-Дополнительно
-- Если функция `gen_random_uuid()` отсутствует, включи расширение: `CREATE EXTENSION IF NOT EXISTS pgcrypto;`.
+Keep credentials out of source control. `.env.local` is ignored by Git.

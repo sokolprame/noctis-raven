@@ -33,12 +33,12 @@ export default async function AboutPage({ searchParams }: { searchParams?: Promi
             </p>
             <p>
               {isRu
-                ? "Дизайнер. Художник. Разработчик. Я двигаюсь между этими ролями, чтобы делать цифровую работу премиальной без потери ясности."
-                : "Designer. Artist. Developer. I move between those roles with one shared intention: to make digital work feel premium without losing clarity."}
+                ? "Дизайнер. Художник. Разработчик. Я объединяю эти роли, чтобы создавать выразительные цифровые проекты с ясной идеей."
+                : "Designer. Artist. Developer. I bring these roles together to make expressive digital work with a clear point of view."}
             </p>
           </div>
 
-          <div className="space-y-4 rounded-[28px] border border-white/10 bg-[#0a0a0a] p-6">
+          <div className="space-y-4 border border-white/10 bg-[#0a0a0a] p-6">
             <p className="text-[11px] uppercase tracking-[0.38em] text-[#ff1a4d]">{isRu ? "КЛЮЧЕВОЕ" : "CORE"}</p>
             <div className="space-y-4 text-sm text-[#d4d4d4]">
               <div className="flex flex-col gap-1 border-b border-white/5 pb-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
@@ -57,18 +57,18 @@ export default async function AboutPage({ searchParams }: { searchParams?: Promi
           </div>
         </div>
 
-        <div className="mt-16 rounded-[28px] border border-white/10 bg-[#0a0a0a] p-8">
-          <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{isRu ? "ХРОНОЛОГИЯ" : "TIMELINE"}</p>
+        <div className="mt-16 border border-white/10 bg-[#0a0a0a] p-8">
+          <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{isRu ? "ПОДХОД" : "APPROACH"}</p>
           <div className="mt-8 flex flex-col gap-5">
             {[
-              isRu ? "СТАРТ" : "START",
-              isRu ? "ДИЗАЙН" : "DESIGN",
-              isRu ? "ИСКУССТВО" : "ART",
-              isRu ? "WEB" : "WEB",
-              "NOCTIS",
+              isRu ? "ИДЕЯ" : "IDEA",
+              isRu ? "НАПРАВЛЕНИЕ" : "DIRECTION",
+              isRu ? "ДЕТАЛИ" : "DETAIL",
+              isRu ? "РЕАЛИЗАЦИЯ" : "DELIVERY",
             ].map((step, index) => (
               <div key={step} className="flex items-center gap-4 text-sm uppercase tracking-[0.26em] text-[#d5d5d5]">
-                {index > 0 ? <span className="text-[#ff1a4d]">↓</span> : <span className="text-[#ff1a4d]">→</span>}
+                <span className="font-bold text-[#ff1a4d]">{String(index + 1).padStart(2, "0")}</span>
+                <span className="h-px w-7 bg-white/20" />
                 <span>{step}</span>
               </div>
             ))}
@@ -76,7 +76,7 @@ export default async function AboutPage({ searchParams }: { searchParams?: Promi
         </div>
 
         <div className="mt-12">
-          <Link href={withLocale("/contact", locale)} className="inline-flex items-center gap-3 rounded-full bg-[#b3002d] px-6 py-3 text-[11px] uppercase tracking-[0.28em] text-[#f5f5f5] transition hover:bg-[#ff1a4d]">
+          <Link href={withLocale("/contact", locale)} className="inline-flex items-center gap-3 bg-[#c8102e] px-6 py-4 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#f5f5f5] transition hover:bg-[#ed1739]">
             {isRu ? "НАЧАТЬ ПРОЕКТ" : "START A PROJECT"}
           </Link>
         </div>

@@ -3,29 +3,23 @@ import { query } from "../../../lib/db";
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as {
-      name?: string;
-      email?: string;
-      message?: string;
+    const body = await request.json() as {
+      name?: unknown;
+      email?: unknown;
+      message?: unknown;
     };
-    const name = body.name?.trim();
-    const email = body.email?.trim();
-    const message = body.message?.trim();
+    const name = typeof body.name === "string" ? body.name.trim() : "";
+    const email = typeof body.email === "string" ? body.email.trim() : "";
+    const message = typeof body.message === "string" ? body.message.trim() : "";
 
-    if (!name || !email || !message) {
+    if (
+      !name || !email || !message ||
+      name.length > 100 || email.length > 254 || message.length > 5000 ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ) {
       return NextResponse.json({ ok: false, message: "Заполните все поля" }, { status: 400 });
     }
 
-    await query("CREATE EXTENSION IF NOT EXISTS pgcrypto");
-    await query(
-      `CREATE TABLE IF NOT EXISTS contact_requests (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        name TEXT NOT NULL,
-        email TEXT NOT NULL,
-        message TEXT NOT NULL,
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-      )`,
-    );
     await query(
       "INSERT INTO contact_requests (name, email, message) VALUES ($1, $2, $3)",
       [name, email, message],

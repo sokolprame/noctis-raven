@@ -68,12 +68,6 @@ textarea {
   font: inherit;
 }
 
-button,
-input,
-textarea {
-  border: none;
-}
-
 button {
   cursor: pointer;
 }
@@ -81,6 +75,100 @@ button {
 img {
   display: block;
   max-width: 100%;
+}
+
+.cyber-glitch-base {
+  transform-origin: center;
+  animation: noctis-image-glitch 4.8s steps(1, end) infinite;
+}
+
+.cyber-glitch-layer {
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+.cyber-glitch-layer-red {
+  filter: sepia(1) saturate(7) hue-rotate(300deg) contrast(1.25);
+  opacity: 0.1;
+  clip-path: inset(20% 0 66% 0);
+  transform: translateX(-2px);
+  animation: noctis-glitch-red 4.8s steps(1, end) infinite;
+}
+
+.cyber-glitch-layer-cyan {
+  filter: sepia(1) saturate(8) hue-rotate(135deg) contrast(1.2);
+  opacity: 0.08;
+  clip-path: inset(59% 0 27% 0);
+  transform: translateX(2px);
+  animation: noctis-glitch-cyan 4.8s steps(1, end) infinite;
+}
+
+.cyber-glitch-overlay {
+  opacity: 0.16;
+  background: repeating-linear-gradient(to bottom, transparent 0 3px, rgba(255, 255, 255, 0.08) 3px 4px);
+}
+
+.cyber-glitch-overlay::before,
+.cyber-glitch-overlay::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+.cyber-glitch-overlay::before {
+  background: linear-gradient(to bottom, transparent 0 18%, rgba(255, 20, 72, 0.72) 18.4% 19%, transparent 19.4% 61%, rgba(0, 229, 255, 0.65) 61.4% 62%, transparent 62.4%);
+  animation: noctis-glitch-bars-red 4.8s steps(1, end) infinite;
+}
+
+.cyber-glitch-overlay::after {
+  background: linear-gradient(to bottom, transparent 0 34%, rgba(255, 255, 255, 0.24) 34.5% 35%, transparent 35.5% 73%, rgba(255, 20, 72, 0.45) 73.5% 74%, transparent 74.5%);
+  animation: noctis-glitch-bars-cyan 4.8s steps(1, end) infinite;
+}
+
+@keyframes noctis-image-glitch {
+  0%, 49%, 100% { clip-path: inset(0); filter: none; transform: translate3d(0, 0, 0); }
+  50% { clip-path: inset(20% 0 66% 0); filter: saturate(1.4) contrast(1.15); transform: translate3d(-3px, 1px, 0) skewX(-0.8deg); }
+  52% { clip-path: inset(59% 0 27% 0); filter: hue-rotate(-8deg) contrast(1.18); transform: translate3d(4px, -1px, 0) skewX(0.8deg); }
+  54% { clip-path: inset(0); filter: none; transform: translate3d(-1px, 0, 0); }
+  56% { clip-path: inset(41% 0 49% 0); filter: saturate(1.4); transform: translate3d(2px, 0, 0); }
+  58% { clip-path: inset(0); filter: none; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes noctis-glitch-red {
+  0%, 49.5%, 59%, 100% { opacity: 0.1; clip-path: inset(20% 0 66% 0); transform: translateX(-2px); }
+  50% { opacity: 0.72; clip-path: inset(20% 0 66% 0); transform: translateX(-7px); }
+  52% { opacity: 0.55; clip-path: inset(59% 0 27% 0); transform: translateX(5px); }
+  54% { opacity: 0.42; clip-path: inset(40% 0 49% 0); transform: translateX(-4px); }
+  56% { opacity: 0.62; clip-path: inset(34% 0 58% 0); transform: translateX(4px); }
+  58% { opacity: 0; clip-path: inset(0); transform: translateX(0); }
+}
+
+@keyframes noctis-glitch-cyan {
+  0%, 50%, 59%, 100% { opacity: 0.08; clip-path: inset(59% 0 27% 0); transform: translateX(2px); }
+  50.8% { opacity: 0.68; clip-path: inset(28% 0 57% 0); transform: translateX(7px); }
+  52.8% { opacity: 0.5; clip-path: inset(67% 0 19% 0); transform: translateX(-5px); }
+  54.8% { opacity: 0.38; clip-path: inset(48% 0 39% 0); transform: translateX(4px); }
+  56.8% { opacity: 0; clip-path: inset(0); transform: translateX(0); }
+}
+
+@keyframes noctis-glitch-bars-red {
+  0%, 49.5%, 59%, 100% { opacity: 0.08; transform: translateX(0); }
+  50% { opacity: 0.85; transform: translateX(-5px); }
+  52% { opacity: 0.3; transform: translateX(6px); }
+  54% { opacity: 0.72; transform: translateX(-3px); }
+  56% { opacity: 0; transform: translateX(0); }
+}
+
+@keyframes noctis-glitch-bars-cyan {
+  0%, 50%, 59%, 100% { opacity: 0.06; transform: translateX(0); }
+  50.8% { opacity: 0.75; transform: translateX(5px); }
+  52.8% { opacity: 0.35; transform: translateX(-6px); }
+  54.8% { opacity: 0.7; transform: translateX(3px); }
+  56.8% { opacity: 0; transform: translateX(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -91,6 +179,14 @@ img {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .cyber-glitch-base,
+  .cyber-glitch-layer,
+  .cyber-glitch-overlay::before,
+  .cyber-glitch-overlay::after {
+    animation-duration: 4.8s !important;
+    animation-iteration-count: infinite !important;
   }
 
   .case-reveal {

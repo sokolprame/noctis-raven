@@ -89,14 +89,10 @@ export async function getArtBySlug(slug: string): Promise<ArtRecord | null> {
 }
 
 export async function createArt(input: Omit<ArtRecord, "id" | "created_at">) {
-  try {
-    await query(
-      `INSERT INTO arts (slug, title, category, summary, description, story, tools, cover, gallery) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-      [input.slug, input.title, input.category, input.summary, input.description, input.story, JSON.stringify(input.tools), input.cover, JSON.stringify(input.gallery)],
-    );
-  } catch {
-    // ignore when DB is unavailable; admin UI should still render without crashing
-  }
+  await query(
+    `INSERT INTO arts (slug, title, category, summary, description, story, tools, cover, gallery) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+    [input.slug, input.title, input.category, input.summary, input.description, input.story, JSON.stringify(input.tools), input.cover, JSON.stringify(input.gallery)],
+  );
 }
 
 export async function updateArt(id: string, input: Partial<Omit<ArtRecord, "id" | "created_at">>) {
@@ -170,14 +166,10 @@ export async function getWebProjectBySlug(slug: string): Promise<WebRecord | nul
 }
 
 export async function createWebProject(input: Omit<WebRecord, "id" | "created_at">) {
-  try {
-    await query(
-      `INSERT INTO web_projects (slug, title, type, summary, brief, challenge, goals, solution, process_research, process_structure, process_prototyping, process_ui, gallery_home, gallery_inner, gallery_responsive, gallery_ui, technologies, features, live_url, result, cover) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)`,
-      [input.slug, input.title, input.type, input.summary, input.brief, input.challenge, JSON.stringify(input.goals), input.solution, input.process_research, input.process_structure, input.process_prototyping, input.process_ui, input.gallery_home, input.gallery_inner, input.gallery_responsive, input.gallery_ui, JSON.stringify(input.technologies), JSON.stringify(input.features), input.live_url, input.result, input.cover],
-    );
-  } catch {
-    // ignore when DB is unavailable; admin UI should still render without crashing
-  }
+  await query(
+    `INSERT INTO web_projects (slug, title, type, summary, brief, challenge, goals, solution, process_research, process_structure, process_prototyping, process_ui, gallery_home, gallery_inner, gallery_responsive, gallery_ui, technologies, features, live_url, result, cover) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)`,
+    [input.slug, input.title, input.type, input.summary, input.brief, input.challenge, JSON.stringify(input.goals), input.solution, input.process_research, input.process_structure, input.process_prototyping, input.process_ui, input.gallery_home, input.gallery_inner, input.gallery_responsive, input.gallery_ui, JSON.stringify(input.technologies), JSON.stringify(input.features), input.live_url, input.result, input.cover],
+  );
 }
 
 export async function updateWebProject(id: string, input: Partial<Omit<WebRecord, "id" | "created_at">>) {

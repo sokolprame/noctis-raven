@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import LanguageToggle from "@/components/LanguageToggle";
+import BrandMark from "@/components/BrandMark";
 import { resolveLocale, withLocale } from "@/lib/i18n";
 
 export default function SiteHeader() {
@@ -24,10 +25,10 @@ export default function SiteHeader() {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4 sm:px-8 lg:px-10">
         <Link
           href={withLocale("/", locale)}
-          className="text-sm font-medium uppercase tracking-[0.35em] text-[#f5f5f5] transition hover:text-[#ff1a4d]"
+          className="text-sm text-[#f5f5f5] transition hover:text-[#ff1a4d]"
           aria-label="Go to home page"
         >
-          NOCTIS
+          <BrandMark />
         </Link>
 
         <nav className="hidden items-center gap-8 text-[11px] uppercase tracking-[0.28em] text-[#d5d5d5] md:flex">

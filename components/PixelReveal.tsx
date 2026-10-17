@@ -24,9 +24,7 @@ type Spark = {
   delay: number;
 };
 
-const playedKey = "noctis:hero-pixel-reveal:v5";
-
-export default function PixelReveal({ locale }: { locale: "ru" | "en" }) {
+export default function PixelReveal({ locale, variant = "home" }: { locale: "ru" | "en"; variant?: "home" | "contact" }) {
   const imageRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -40,18 +38,6 @@ export default function PixelReveal({ locale }: { locale: "ru" | "en" }) {
       image.style.opacity = "1";
       if (canvas) canvas.style.opacity = "0";
     };
-
-    let alreadyPlayed = false;
-    try {
-      alreadyPlayed = window.sessionStorage.getItem(playedKey) === "1";
-    } catch {
-      // Continue with the one-time reveal when storage is unavailable.
-    }
-
-    if (alreadyPlayed) {
-      revealImmediately();
-      return;
-    }
 
     if (!canvas || !context) {
       revealImmediately();
@@ -91,7 +77,8 @@ export default function PixelReveal({ locale }: { locale: "ru" | "en" }) {
       const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
       const drawWidth = image.naturalWidth * scale;
       const drawHeight = image.naturalHeight * scale;
-      sampleContext.drawImage(image, (width - drawWidth) / 2, (height - drawHeight) / 2, drawWidth, drawHeight);
+      const objectPositionY = variant === "contact" ? 0.3 : 0.5;
+      sampleContext.drawImage(image, (width - drawWidth) / 2, (height - drawHeight) * objectPositionY, drawWidth, drawHeight);
 
       let pixelsData: Uint8ClampedArray;
       try {
@@ -193,11 +180,6 @@ export default function PixelReveal({ locale }: { locale: "ru" | "en" }) {
         } else {
           revealImmediately();
           context.clearRect(0, 0, width, height);
-          try {
-            window.sessionStorage.setItem(playedKey, "1");
-          } catch {
-            // The animation completed; storage is only used to avoid replay during navigation.
-          }
         }
       };
 
@@ -217,7 +199,7 @@ export default function PixelReveal({ locale }: { locale: "ru" | "en" }) {
       image.removeEventListener("load", reveal);
       image.removeEventListener("error", revealImmediately);
     };
-  }, []);
+  }, [variant]);
 
   return (
     <>
@@ -227,8 +209,24 @@ export default function PixelReveal({ locale }: { locale: "ru" | "en" }) {
         alt={locale === "ru" ? "Портрет Noctis Raven" : "Portrait of Noctis Raven"}
         fill
         priority
-        sizes="(max-width: 1024px) 90vw, 38vw"
-        className="object-cover object-center opacity-100 transition-transform duration-700 group-hover:scale-[1.04]"
+        sizes={variant === "contact" ? "(max-width: 768px) 52vw, 39vw" : "(max-width: 1024px) 94vw, 52vw"}
+        className={`cyber-glitch-base object-cover opacity-100 transition-transform duration-700 group-hover:scale-[1.04] ${variant === "contact" ? "object-[center_30%]" : "object-center"}`}
+      />
+      <Image
+        src="/noctis-portrait.png"
+        alt=""
+        aria-hidden="true"
+        fill
+        sizes={variant === "contact" ? "(max-width: 768px) 52vw, 39vw" : "(max-width: 1024px) 94vw, 52vw"}
+        className={`cyber-glitch-layer cyber-glitch-layer-red object-cover ${variant === "contact" ? "object-[center_30%]" : "object-center"}`}
+      />
+      <Image
+        src="/noctis-portrait.png"
+        alt=""
+        aria-hidden="true"
+        fill
+        sizes={variant === "contact" ? "(max-width: 768px) 52vw, 39vw" : "(max-width: 1024px) 94vw, 52vw"}
+        className={`cyber-glitch-layer cyber-glitch-layer-cyan object-cover ${variant === "contact" ? "object-[center_30%]" : "object-center"}`}
       />
       <canvas ref={canvasRef} aria-hidden="true" className="pointer-events-none absolute inset-0 z-10 h-full w-full opacity-0" />
     </>

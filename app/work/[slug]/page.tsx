@@ -34,7 +34,6 @@ export default async function ProjectDetailPage({
         back: "Назад к проектам",
         project: "Проект",
         role: "Роль",
-        year: "Год",
         services: "Услуги / фокус",
         overview: "Обзор",
         client: "Клиент",
@@ -60,7 +59,6 @@ export default async function ProjectDetailPage({
         back: "Back to projects",
         project: "Project",
         role: "Role",
-        year: "Year",
         services: "Services / focus",
         overview: "Overview",
         client: "Client",
@@ -85,7 +83,6 @@ export default async function ProjectDetailPage({
   const metadata = [
     { label: labels.client, value: project.client },
     { label: labels.role, value: project.role[locale] },
-    { label: labels.year, value: project.year[locale] },
     { label: labels.type, value: project.type[locale] },
   ];
   const developmentItems = [
@@ -113,7 +110,7 @@ export default async function ProjectDetailPage({
             </h1>
             <div className="mt-9 grid gap-6 border-t border-white/10 pt-6 sm:grid-cols-3">
               <MetaItem label={labels.role} value={project.role[locale]} />
-              <MetaItem label={labels.year} value={project.year[locale]} />
+              <MetaItem label={labels.type} value={project.type[locale]} />
               <div>
                 <p className="text-[9px] uppercase tracking-[0.34em] text-[#777]">{labels.services}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -130,7 +127,7 @@ export default async function ProjectDetailPage({
               src={project.previewUrl}
               alt={`${project.title} — ${copy.summary}`}
               fit={project.previewFit}
-              className="aspect-[4/3] min-h-64 rounded-[24px] border border-white/10 bg-[#100d0c] sm:aspect-video sm:min-h-110 sm:rounded-[36px] lg:min-h-140"
+              className="aspect-[4/3] min-h-64 border border-white/10 bg-[#100d0c] sm:aspect-video sm:min-h-110 lg:min-h-140"
               imageClassName="transition-transform duration-700 group-hover:scale-[1.025]"
             >
               <div className="flex h-full items-end p-6 sm:p-10">
@@ -175,7 +172,7 @@ export default async function ProjectDetailPage({
           <div className="grid gap-4 sm:grid-cols-2">
             {approach.map((item, index) => (
               <CaseReveal key={item.title} delay={index * 0.045} className="h-full">
-                <article className="h-full rounded-[24px] border border-white/10 bg-[#0a0a0a] p-5 sm:rounded-3xl sm:p-8">
+                <article className="h-full border border-white/10 bg-[#0a0a0a] p-5 sm:p-8">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] tracking-[0.3em] text-[#ff1a4d]">0{index + 1}</span>
                     <span className="h-px w-12 bg-white/15" />
@@ -213,7 +210,7 @@ export default async function ProjectDetailPage({
                   <div className="mt-5 flex gap-2 sm:gap-3">
                     {design.colors.map((color) => (
                       <div key={color.value} className="min-w-0 flex-1">
-                        <div className="h-14 rounded-xl border border-white/10 sm:h-20" style={{ backgroundColor: color.value }} />
+                        <div className="h-14 border border-white/10 sm:h-20" style={{ backgroundColor: color.value }} />
                         <p className="mt-2 truncate text-[9px] text-[#aaa]">{color.label}</p>
                         <p className="text-[9px] uppercase tracking-widest text-[#666]">{color.value}</p>
                       </div>
@@ -268,7 +265,7 @@ export default async function ProjectDetailPage({
               src={project.previewUrl}
               alt={`${project.title} — ${labels.final}`}
               fit={project.previewFit}
-              className="aspect-[4/3] min-h-64 rounded-[24px] border border-white/10 bg-[#100d0c] sm:aspect-video sm:min-h-120 sm:rounded-[36px] lg:min-h-150"
+              className="aspect-[4/3] min-h-64 border border-white/10 bg-[#100d0c] sm:aspect-video sm:min-h-120 lg:min-h-150"
               imageClassName="transition-transform duration-700 group-hover:scale-[1.025]"
             >
               <div className="flex h-full items-end justify-between gap-6 p-6 sm:p-10">
@@ -292,7 +289,7 @@ export default async function ProjectDetailPage({
                 src={nextProject.previewUrl}
                 alt={`${labels.next}: ${nextProject.title}`}
                 fit={nextProject.previewFit}
-                className="flex min-h-64 items-end rounded-[24px] border border-white/10 bg-[#100d0c] transition-colors duration-500 group-hover:border-[#ff1a4d]/50 sm:min-h-97.5 sm:rounded-[36px] lg:min-h-115"
+                className="flex min-h-64 items-end border border-white/10 bg-[#100d0c] transition-colors duration-500 group-hover:border-[#ff1a4d]/50 sm:min-h-97.5 lg:min-h-115"
                 imageClassName="transition-transform duration-1000 group-hover:scale-[1.035]"
               >
                 <div className="flex w-full items-end justify-between gap-3 p-5 sm:gap-6 sm:p-12">
