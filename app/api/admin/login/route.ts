@@ -8,10 +8,24 @@ import {
 } from "../../../../lib/auth";
 
 export async function POST(request: Request) {
-  let body: { password?: unknown };
+  const origin = request.headers.get("origin");
+  if (origin && new URL(origin).origin !== new URL(request.url).origin) {
+    return NextResponse.json({ message: "Invalid origin" }, { status: 403 });
+  }
+
+  const contentLength = Number(request.headers.get("content-length") ?? 0);
+  if (contentLength > 1024) {
+    return NextResponse.json({ message: "Request is too large" }, { status: 413 });
+  }
+
+  let body: unknown;
   try {
     body = await request.json();
   } catch {
+    return NextResponse.json({ message: "Invalid request" }, { status: 400 });
+  }
+
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
     return NextResponse.json({ message: "Invalid request" }, { status: 400 });
   }
 
@@ -19,7 +33,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Admin authentication is not configured" }, { status: 503 });
   }
 
-  if (typeof body.password !== "string" || !validateAdminPassword(body.password)) {
+  const password = (body as { password?: unknown }).password;
+  if (typeof password !== "string" || password.length > 512 || !validateAdminPassword(password)) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 

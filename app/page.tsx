@@ -255,11 +255,11 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
               </h3>
               <p className="mt-4 max-w-xl text-base leading-8 text-[#a1a1a1]">{t.contactText}</p>
               <div className="mt-8 flex flex-wrap gap-4">
-                <Link href={withLocale("/contact", locale)} className="inline-flex items-center gap-3 rounded-full bg-[#b3002d] px-6 py-3 text-[11px] uppercase tracking-[0.28em] text-[#f5f5f5] transition hover:bg-[#ff1a4d]">
+                <Link href={withLocale("/contact", locale)} className="inline-flex items-center gap-3 bg-[#b3002d] px-6 py-3 text-[11px] uppercase tracking-[0.28em] text-[#f5f5f5] transition hover:bg-[#ff1a4d]">
                   {t.cta}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
-                <a href="mailto:raven4noctis@gmail.com" className="inline-flex items-center gap-3 rounded-full border border-white/10 px-6 py-3 text-[11px] uppercase tracking-[0.28em] text-[#f5f5f5] transition hover:border-[#ff1a4d]/60 hover:text-[#ffb3c7]">
+                <a href="mailto:raven4noctis@gmail.com" className="inline-flex items-center gap-3 border border-white/10 px-6 py-3 text-[11px] uppercase tracking-[0.28em] text-[#f5f5f5] transition hover:border-[#ff1a4d]/60 hover:text-[#ffb3c7]">
                   <Mail className="h-4 w-4" />
                   {t.email}
                 </a>

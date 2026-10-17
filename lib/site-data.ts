@@ -18,37 +18,27 @@ export type ProjectDesign = {
   interface: string;
 };
 
-export type ProjectDevelopment = {
-  frontend: string;
-  backend: string;
-  database: string;
-  motion: string;
-  responsive: string;
-  note: string;
-};
-
 export type PortfolioItem = {
   slug: string;
   title: string;
   client: string;
   type: Record<Locale, string>;
   role: Record<Locale, string>;
-  year: Record<Locale, string>;
   services: Record<Locale, string[]>;
   category: "Web";
-  accent: string;
+  collection: "Commerce" | "Memorial";
   liveUrl: string;
   previewUrl: string;
   previewFit: "cover" | "contain";
   gallery: string[];
+  galleryFit: Array<"cover" | "contain">;
   copy: Record<Locale, ProjectCopy>;
   problem: Record<Locale, string>;
   approach: Record<Locale, ProjectApproach[]>;
   design: Record<Locale, ProjectDesign>;
-  development: Record<Locale, ProjectDevelopment>;
 };
 
-export const projectFilters = ["All", "Web"] as const;
+export const projectFilters = ["All", "Commerce", "Memorial"] as const;
 
 export const portfolioProjects: PortfolioItem[] = [
   {
@@ -57,13 +47,12 @@ export const portfolioProjects: PortfolioItem[] = [
     client: "ООО «2 Культуры»",
     type: { ru: "Сайт-каталог", en: "Product catalogue website" },
     role: { ru: "Разработка сайта", en: "Website development" },
-    year: { ru: "Не указан", en: "Not specified" },
     services: {
       ru: ["Каталог продукции", "Навигация по категориям", "Запрос оптового прайс-листа"],
       en: ["Product catalogue", "Category navigation", "Wholesale price-list request"],
     },
     category: "Web",
-    accent: "#b5793d",
+    collection: "Commerce",
     liveUrl: "https://sokolprame.pythonanywhere.com/",
     previewUrl: "https://www.2cultures.ru/images/slide1.jpg",
     previewFit: "cover",
@@ -71,6 +60,7 @@ export const portfolioProjects: PortfolioItem[] = [
       "https://www.2cultures.ru/images/slide1.jpg",
       "https://sokolprame.pythonanywhere.com/static/image/logo.png",
     ],
+    galleryFit: ["cover", "contain"],
     copy: {
       ru: {
         summary: "Сайт производителя шампуров, мангалов и товаров для пикника.",
@@ -133,24 +123,6 @@ export const portfolioProjects: PortfolioItem[] = [
         interface: "Category navigation, search, product cards, and a price-list request form.",
       },
     },
-    development: {
-      ru: {
-        frontend: "Стек не указан в публичных материалах.",
-        backend: "Технические детали backend не опубликованы.",
-        database: "Тип базы данных не указан.",
-        motion: "Сложные анимации не заявлены.",
-        responsive: "Технические детали адаптивной реализации не указаны.",
-        note: "В кейсе отражены только решения и функции, которые можно проверить на опубликованном сайте.",
-      },
-      en: {
-        frontend: "The frontend stack is not specified in public materials.",
-        backend: "Backend implementation details are not published.",
-        database: "The database technology is not specified.",
-        motion: "No advanced motion system is documented.",
-        responsive: "Responsive implementation details are not specified.",
-        note: "This case only describes decisions and features observable on the live website.",
-      },
-    },
   },
   {
     slug: "svetlaya-pamyat-antonovskiy",
@@ -158,13 +130,12 @@ export const portfolioProjects: PortfolioItem[] = [
     client: "Антоновский Георгий Иванович",
     type: { ru: "Страница памяти", en: "Memorial website" },
     role: { ru: "Разработка сайта", en: "Website development" },
-    year: { ru: "Не указан", en: "Not specified" },
     services: {
       ru: ["Биографическая история", "Фотогалерея", "Памятный фильм"],
       en: ["Personal story", "Photo gallery", "Memorial film"],
     },
     category: "Web",
-    accent: "#9b8872",
+    collection: "Memorial",
     liveUrl: "https://stalwart-gaufre-e11e94.netlify.app/",
     previewUrl: "https://stalwart-gaufre-e11e94.netlify.app/image/photo.png",
     previewFit: "cover",
@@ -173,6 +144,7 @@ export const portfolioProjects: PortfolioItem[] = [
       "https://stalwart-gaufre-e11e94.netlify.app/image/photo2.jpg",
       "https://stalwart-gaufre-e11e94.netlify.app/image/photo5.jpg",
     ],
+    galleryFit: ["cover", "cover", "cover"],
     copy: {
       ru: {
         summary: "Персональная страница памяти Георгия Ивановича Антоновского.",
@@ -233,24 +205,6 @@ export const portfolioProjects: PortfolioItem[] = [
         ],
         typography: "The name and dates form the primary focal point; section headings keep the story easy to follow.",
         interface: "A portrait-led opening, biography section, photo gallery, and dedicated video player.",
-      },
-    },
-    development: {
-      ru: {
-        frontend: "Стек не указан в публичных материалах.",
-        backend: "Технические детали backend не опубликованы.",
-        database: "Тип базы данных не указан.",
-        motion: "Специальная система анимации не документирована.",
-        responsive: "Технические детали адаптивной реализации не указаны.",
-        note: "Кейс описывает видимые разделы страницы; неподтверждённые технические детали не добавлялись.",
-      },
-      en: {
-        frontend: "The frontend stack is not specified in public materials.",
-        backend: "Backend implementation details are not published.",
-        database: "The database technology is not specified.",
-        motion: "No dedicated motion system is documented.",
-        responsive: "Responsive implementation details are not specified.",
-        note: "This case describes the visible page sections; unverified technical details have been left out.",
       },
     },
   },

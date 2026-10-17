@@ -3,14 +3,32 @@ import { query } from "../../../lib/db";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json() as {
+    const origin = request.headers.get("origin");
+    if (origin && new URL(origin).origin !== new URL(request.url).origin) {
+      return NextResponse.json({ ok: false, message: "Invalid origin" }, { status: 403 });
+    }
+
+    const contentLength = Number(request.headers.get("content-length") ?? 0);
+    if (contentLength > 12_000) {
+      return NextResponse.json({ ok: false, message: "Request is too large" }, { status: 413 });
+    }
+
+    const body: unknown = await request.json();
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return NextResponse.json({ ok: false, message: "Invalid request" }, { status: 400 });
+    }
+    const input = body as {
       name?: unknown;
       email?: unknown;
       message?: unknown;
+      website?: unknown;
     };
-    const name = typeof body.name === "string" ? body.name.trim() : "";
-    const email = typeof body.email === "string" ? body.email.trim() : "";
-    const message = typeof body.message === "string" ? body.message.trim() : "";
+    if (typeof input.website === "string" && input.website.trim()) {
+      return NextResponse.json({ ok: true });
+    }
+    const name = typeof input.name === "string" ? input.name.trim() : "";
+    const email = typeof input.email === "string" ? input.email.trim() : "";
+    const message = typeof input.message === "string" ? input.message.trim() : "";
 
     if (
       !name || !email || !message ||

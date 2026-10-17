@@ -4,7 +4,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LanguageToggle from "@/components/LanguageToggle";
 import BrandMark from "@/components/BrandMark";
 import { resolveLocale, withLocale } from "@/lib/i18n";
@@ -13,6 +13,10 @@ export default function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const searchParams = useSearchParams();
   const locale = resolveLocale(searchParams.get("lang"));
+
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   const navItems = [
     { label: locale === "ru" ? "Работы" : "WORK", href: withLocale("/work", locale) },
@@ -26,7 +30,7 @@ export default function SiteHeader() {
         <Link
           href={withLocale("/", locale)}
           className="text-sm text-[#f5f5f5] transition hover:text-[#ff1a4d]"
-          aria-label="Go to home page"
+          aria-label={locale === "ru" ? "На главную" : "Go to home page"}
         >
           <BrandMark />
         </Link>
@@ -49,7 +53,9 @@ export default function SiteHeader() {
 
         <button
           type="button"
-          aria-label="Toggle navigation menu"
+          aria-label={menuOpen
+            ? locale === "ru" ? "Закрыть меню" : "Close navigation menu"
+            : locale === "ru" ? "Открыть меню" : "Open navigation menu"}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((value) => !value)}
           className="inline-flex items-center justify-center rounded-full border border-white/10 bg-[#0a0a0a] p-2 text-[#f5f5f5] transition hover:border-[#ff1a4d]/60 md:hidden"

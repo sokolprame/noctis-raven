@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -9,6 +10,22 @@ import { getProjectBySlug, portfolioProjects } from "@/lib/site-data";
 
 export function generateStaticParams() {
   return portfolioProjects.map((project) => ({ slug: project.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
+  if (!project) return { title: "Project not found" };
+
+  return {
+    title: project.title,
+    description: project.copy.ru.summary,
+    openGraph: {
+      title: `${project.title} — NOCTIS RAVEN`,
+      description: project.copy.ru.summary,
+      images: [{ url: project.previewUrl }],
+    },
+  };
 }
 
 export default async function ProjectDetailPage({
@@ -24,284 +41,209 @@ export default async function ProjectDetailPage({
 
   if (!project) notFound();
 
+  const ru = locale === "ru";
   const copy = project.copy[locale];
   const approach = project.approach[locale];
   const design = project.design[locale];
-  const development = project.development[locale];
   const nextProject = portfolioProjects.find((item) => item.slug !== project.slug) ?? portfolioProjects[0];
-  const labels = locale === "ru"
+  const labels = ru
     ? {
         back: "Назад к проектам",
         project: "Проект",
         role: "Роль",
-        services: "Услуги / фокус",
-        overview: "Обзор",
         client: "Клиент",
         type: "Тип проекта",
+        services: "Фокус",
+        overview: "Контекст",
         problem: "Задача",
-        approach: "Подход",
-        design: "Дизайн-система",
+        approach: "Решения",
+        design: "Визуальный язык",
         palette: "Палитра",
         typography: "Типографика",
         interface: "Интерфейс",
-        development: "Разработка",
-        frontend: "Frontend",
-        backend: "Backend",
-        database: "База данных",
-        motion: "Анимации",
-        responsive: "Адаптивность",
-        final: "Готовый проект",
+        final: "Проект в работе",
         open: "Открыть сайт",
         next: "Следующий проект",
-        nextHint: "Следующий кейс",
+        nextHint: "Продолжить просмотр",
+        talk: "Есть похожая задача?",
       }
     : {
         back: "Back to projects",
         project: "Project",
         role: "Role",
-        services: "Services / focus",
-        overview: "Overview",
         client: "Client",
         type: "Project type",
-        problem: "The problem",
-        approach: "The approach",
-        design: "Design system",
+        services: "Focus",
+        overview: "Context",
+        problem: "The brief",
+        approach: "Solutions",
+        design: "Visual language",
         palette: "Palette",
         typography: "Typography",
         interface: "Interface",
-        development: "Development",
-        frontend: "Frontend",
-        backend: "Backend",
-        database: "Database",
-        motion: "Motion",
-        responsive: "Responsive",
-        final: "Final result",
+        final: "The project live",
         open: "Open website",
         next: "Next project",
-        nextHint: "Next case study",
+        nextHint: "Keep exploring",
+        talk: "Have a similar project?",
       };
-  const metadata = [
-    { label: labels.client, value: project.client },
-    { label: labels.role, value: project.role[locale] },
-    { label: labels.type, value: project.type[locale] },
-  ];
-  const developmentItems = [
-    { label: labels.frontend, value: development.frontend },
-    { label: labels.backend, value: development.backend },
-    { label: labels.database, value: development.database },
-    { label: labels.motion, value: development.motion },
-    { label: labels.responsive, value: development.responsive },
-  ];
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#050505] text-[#f5f5f5]">
+    <main className="min-h-screen overflow-x-clip bg-[#050505] text-[#f5f5f5]">
       <SiteHeader />
-      <div className="mx-auto max-w-7xl px-5 pb-16 pt-6 sm:px-8 sm:pb-20 sm:pt-8 lg:px-10">
-        <Link href={withLocale("/work", locale)} className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-[#a1a1a1] transition hover:text-[#ff1a4d]">
-          <ArrowLeft className="h-4 w-4" />
-          {labels.back}
+      <div className="mx-auto max-w-7xl px-5 pb-14 pt-6 sm:px-8 sm:pb-20 sm:pt-8 lg:px-10">
+        <Link href={withLocale("/work", locale)} className="inline-flex min-h-10 items-center gap-3 text-[9px] font-semibold uppercase tracking-[0.28em] text-white/55 transition hover:text-[#ff526f] sm:text-[10px] sm:tracking-[0.3em]">
+          <ArrowLeft className="h-4 w-4" />{labels.back}
         </Link>
 
-        <section className="pb-10 pt-10 sm:pb-12 sm:pt-16 lg:pb-16">
+        <section className="pb-10 pt-8 sm:pb-12 sm:pt-12 lg:pb-16">
           <CaseReveal>
-            <p className="text-[10px] uppercase tracking-[0.42em] text-[#a1a1a1]">{labels.project} / {project.category}</p>
-            <h1 className="mt-5 max-w-6xl text-4xl font-medium uppercase leading-[0.92] tracking-[-0.065em] text-[#f5f5f5] sm:text-7xl lg:text-8xl">
-              {project.title}
-            </h1>
-            <div className="mt-9 grid gap-6 border-t border-white/10 pt-6 sm:grid-cols-3">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.36em] text-[#ff526f] sm:text-[10px] sm:tracking-[0.42em]">{labels.project} / {project.category} / {String(portfolioProjects.findIndex((item) => item.slug === project.slug) + 1).padStart(2, "0")}</p>
+            <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.55fr] lg:items-end lg:gap-12">
+              <h1 className="max-w-6xl text-[clamp(2.7rem,8vw,7.5rem)] font-black uppercase leading-[0.84] tracking-[-0.075em] text-white">{project.title}</h1>
+              <p className="max-w-xl border-l-2 border-[#c8102e] pl-4 text-sm leading-6 text-white/65 sm:text-base sm:leading-7 lg:pb-1">{copy.summary}</p>
+            </div>
+
+            <dl className="mt-8 grid gap-x-6 border-y border-white/10 sm:grid-cols-2 lg:grid-cols-4">
+              <MetaItem label={labels.client} value={project.client} />
               <MetaItem label={labels.role} value={project.role[locale]} />
               <MetaItem label={labels.type} value={project.type[locale]} />
-              <div>
-                <p className="text-[9px] uppercase tracking-[0.34em] text-[#777]">{labels.services}</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {project.services[locale].map((service) => (
-                    <span key={service} className="rounded-full border border-white/10 px-3 py-1.5 text-[10px] text-[#d0d0d0]">{service}</span>
-                  ))}
-                </div>
+              <div className="border-t border-white/10 py-4 sm:col-span-2 lg:col-span-1 lg:border-t-0">
+                <dt className="text-[8px] font-semibold uppercase tracking-[0.32em] text-white/40">{labels.services}</dt>
+                <dd className="mt-2 flex flex-wrap gap-2">
+                  {project.services[locale].map((service) => <span key={service} className="border border-white/10 px-2 py-1 text-[9px] leading-4 text-white/65">{service}</span>)}
+                </dd>
               </div>
-            </div>
+            </dl>
           </CaseReveal>
 
-          <CaseReveal delay={0.08} className="mt-10">
+          <CaseReveal delay={0.08} className="mt-6 sm:mt-8">
             <CaseVisual
               src={project.previewUrl}
               alt={`${project.title} — ${copy.summary}`}
               fit={project.previewFit}
-              className="aspect-[4/3] min-h-64 border border-white/10 bg-[#100d0c] sm:aspect-video sm:min-h-110 lg:min-h-140"
+              className="aspect-[4/3] min-h-[250px] border border-white/10 bg-[#100d0c] sm:aspect-[16/9] sm:min-h-[360px] lg:min-h-[470px]"
               imageClassName="transition-transform duration-700 group-hover:scale-[1.025]"
             >
-              <div className="flex h-full items-end p-6 sm:p-10">
-                <p className="max-w-3xl text-xl font-medium leading-snug tracking-tight text-white sm:text-3xl">{copy.summary}</p>
+              <div className="flex h-full items-end justify-between gap-4 p-4 sm:p-8 lg:p-10">
+                <span className="border border-white/35 bg-black/50 px-3 py-2 text-[8px] font-semibold uppercase tracking-[0.28em] text-white/80 backdrop-blur-sm sm:text-[9px]">{project.type[locale]}</span>
+                <span aria-hidden="true" className="mb-1 h-2 w-2 shrink-0 rotate-45 bg-[#ff1a4d] shadow-[0_0_18px_rgba(255,26,77,0.9)]" />
               </div>
             </CaseVisual>
           </CaseReveal>
         </section>
 
         <CaseReveal>
-          <section className="grid gap-10 border-t border-white/10 py-14 lg:grid-cols-[0.65fr_1.35fr] lg:py-20">
+          <section className="grid gap-6 border-t border-white/10 py-10 sm:gap-10 sm:py-14 lg:grid-cols-[0.6fr_1.4fr] lg:py-16">
             <SectionHeading number="01" title={labels.overview} />
-            <div>
-              <p className="max-w-3xl text-xl leading-8 text-[#d4d4d4] sm:text-2xl sm:leading-10">{copy.description}</p>
-              <dl className="mt-9 grid gap-x-8 sm:grid-cols-2">
-                {metadata.map((item) => (
-                  <div key={item.label} className="border-t border-white/10 py-4">
-                    <dt className="text-[9px] uppercase tracking-[0.35em] text-[#777]">{item.label}</dt>
-                    <dd className="mt-2 text-sm text-[#e4e4e4]">{item.value}</dd>
-                  </div>
-                ))}
-              </dl>
+            <div className="grid gap-7 sm:grid-cols-2 sm:gap-10">
+              <p className="text-base leading-7 text-white/70 sm:text-lg sm:leading-8">{copy.description}</p>
+              <div className="border-l border-[#c8102e]/70 pl-4 sm:pl-6">
+                <p className="text-[8px] font-semibold uppercase tracking-[0.32em] text-[#ff526f] sm:text-[9px]">{labels.problem}</p>
+                <p className="mt-3 text-sm leading-7 text-white/55 sm:text-base">{project.problem[locale]}</p>
+              </div>
             </div>
           </section>
         </CaseReveal>
 
-        <CaseReveal>
-          <section className="grid gap-10 border-t border-white/10 py-14 lg:grid-cols-[0.65fr_1.35fr] lg:py-20">
-            <SectionHeading number="02" title={labels.problem} />
-            <p className="max-w-4xl text-2xl leading-relaxed tracking-tight text-[#e5e5e5] sm:text-4xl sm:leading-snug">{project.problem[locale]}</p>
-          </section>
-        </CaseReveal>
-
-        <section className="border-t border-white/10 py-14 lg:py-20">
+        <section className="border-t border-white/10 py-10 sm:py-14 lg:py-16">
           <CaseReveal>
-            <div className="mb-10 grid gap-6 lg:grid-cols-[0.65fr_1.35fr]">
-              <SectionHeading number="03" title={labels.approach} />
-              <p className="max-w-2xl text-sm leading-7 text-[#a1a1a1]">{locale === "ru" ? "Ключевые решения, которые видны в опубликованном проекте." : "Key decisions visible in the published project."}</p>
+            <div className="mb-6 grid gap-4 sm:mb-8 sm:grid-cols-[0.6fr_1.4fr] sm:items-end sm:gap-10">
+              <SectionHeading number="02" title={labels.approach} />
+              <p className="max-w-xl text-xs leading-6 text-white/50 sm:text-sm sm:leading-7">{ru ? "Четыре решения, которые формируют опыт этого проекта." : "Four decisions that shape the experience of this project."}</p>
             </div>
           </CaseReveal>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2">
             {approach.map((item, index) => (
-              <CaseReveal key={item.title} delay={index * 0.045} className="h-full">
-                <article className="h-full border border-white/10 bg-[#0a0a0a] p-5 sm:p-8">
+              <CaseReveal key={item.title} delay={index * 0.035} className="h-full">
+                <article className="h-full bg-[#080808] p-4 sm:p-6 lg:p-7">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] tracking-[0.3em] text-[#ff1a4d]">0{index + 1}</span>
-                    <span className="h-px w-12 bg-white/15" />
+                    <span className="text-[9px] font-semibold tracking-[0.28em] text-[#ff526f]">0{index + 1}</span>
+                    <span aria-hidden="true" className="h-px w-8 bg-[#c8102e]/70 sm:w-12" />
                   </div>
-                  <h3 className="mt-8 text-xl font-medium uppercase tracking-[-0.035em] sm:text-2xl">{item.title}</h3>
-                  <p className="mt-3 max-w-xl text-sm leading-7 text-[#a9a9a9]">{item.description}</p>
+                  <h3 className="mt-6 text-lg font-semibold uppercase leading-tight tracking-[-0.035em] sm:mt-8 sm:text-xl">{item.title}</h3>
+                  <p className="mt-3 max-w-xl text-xs leading-6 text-white/55 sm:text-sm sm:leading-7">{item.description}</p>
                 </article>
               </CaseReveal>
             ))}
           </div>
 
-          <div className="mt-5 grid gap-5 sm:grid-cols-2">
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 sm:gap-5">
             {project.gallery.slice(0, 2).map((image, index) => (
-              <CaseReveal key={image} delay={index * 0.06}>
+              <CaseReveal key={image} delay={index * 0.05}>
                 <CaseVisual
                   src={image}
                   alt={`${project.title} — ${approach[index]?.title ?? labels.approach}`}
-                  fit={index === 1 && project.previewFit === "contain" ? "cover" : project.previewFit}
-                  className="aspect-16/10 rounded-3xl border border-white/10 bg-[#100d0c]"
+                  fit={project.galleryFit[index] ?? "cover"}
+                  className="aspect-[4/3] border border-white/10 bg-[#100d0c] sm:aspect-[16/10]"
                   imageClassName="transition-transform duration-700 group-hover:scale-[1.025]"
                 />
-                <p className="mt-3 text-[9px] uppercase tracking-[0.3em] text-[#777]">{approach[index]?.title}</p>
+                <p className="mt-2 border-l border-[#c8102e] pl-3 text-[8px] font-semibold uppercase tracking-[0.25em] text-white/45 sm:text-[9px]">{approach[index]?.title}</p>
               </CaseReveal>
             ))}
           </div>
         </section>
 
         <CaseReveal>
-          <section className="border-t border-white/10 py-14 lg:py-20">
-            <div className="grid gap-10 lg:grid-cols-[0.65fr_1.35fr]">
-              <SectionHeading number="04" title={labels.design} />
-              <div className="grid gap-10 sm:grid-cols-2">
-                <div>
-                  <p className="text-[9px] uppercase tracking-[0.35em] text-[#777]">{labels.palette}</p>
-                  <div className="mt-5 flex gap-2 sm:gap-3">
-                    {design.colors.map((color) => (
-                      <div key={color.value} className="min-w-0 flex-1">
-                        <div className="h-14 border border-white/10 sm:h-20" style={{ backgroundColor: color.value }} />
-                        <p className="mt-2 truncate text-[9px] text-[#aaa]">{color.label}</p>
-                        <p className="text-[9px] uppercase tracking-widest text-[#666]">{color.value}</p>
-                      </div>
-                    ))}
-                  </div>
+          <section className="grid gap-6 border-t border-white/10 py-10 sm:gap-10 sm:py-14 lg:grid-cols-[0.6fr_1.4fr] lg:py-16">
+            <SectionHeading number="03" title={labels.design} />
+            <div className="grid gap-7 sm:grid-cols-2 sm:gap-10">
+              <div>
+                <p className="text-[8px] font-semibold uppercase tracking-[0.32em] text-white/40 sm:text-[9px]">{labels.palette}</p>
+                <div className="mt-4 grid grid-cols-3 gap-2 sm:gap-3">
+                  {design.colors.map((color) => (
+                    <div key={color.value}>
+                      <div className="h-12 border border-white/10 sm:h-16" style={{ backgroundColor: color.value }} />
+                      <p className="mt-2 truncate text-[8px] text-white/55 sm:text-[9px]">{color.label}</p>
+                      <p className="text-[8px] uppercase tracking-[0.12em] text-white/30 sm:text-[9px]">{color.value}</p>
+                    </div>
+                  ))}
                 </div>
-                <div>
-                  <p className="text-[9px] uppercase tracking-[0.35em] text-[#777]">{labels.typography}</p>
-                  <p className="mt-4 text-4xl font-medium uppercase leading-none tracking-[-0.07em] text-[#f5f5f5]">Aa</p>
-                  <p className="mt-4 text-sm leading-7 text-[#a9a9a9]">{design.typography}</p>
+              </div>
+              <div>
+                <p className="text-[8px] font-semibold uppercase tracking-[0.32em] text-white/40 sm:text-[9px]">{labels.typography}</p>
+                <p className="mt-3 text-4xl font-black uppercase leading-none tracking-[-0.08em] sm:text-5xl">Aa</p>
+                <p className="mt-3 text-xs leading-6 text-white/55 sm:text-sm sm:leading-7">{design.typography}</p>
+              </div>
+              <div className="border-t border-white/10 pt-5 sm:col-span-2 sm:pt-6">
+                <p className="text-[8px] font-semibold uppercase tracking-[0.32em] text-white/40 sm:text-[9px]">{labels.interface}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {copy.highlights.map((item) => <span key={item} className="border border-white/10 px-3 py-2 text-[9px] leading-4 text-white/65 sm:text-[10px]">{item}</span>)}
                 </div>
-                <div className="sm:col-span-2">
-                  <p className="text-[9px] uppercase tracking-[0.35em] text-[#777]">{labels.interface}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {copy.highlights.map((item) => (
-                      <span key={item} className="rounded-full border border-white/10 bg-white/2.5 px-4 py-2 text-xs text-[#d1d1d1]">{item}</span>
-                    ))}
-                  </div>
-                  <p className="mt-4 max-w-3xl text-sm leading-7 text-[#a9a9a9]">{design.interface}</p>
-                </div>
+                <p className="mt-4 max-w-3xl text-xs leading-6 text-white/50 sm:text-sm sm:leading-7">{design.interface}</p>
               </div>
             </div>
           </section>
         </CaseReveal>
 
         <CaseReveal>
-          <section className="grid gap-10 border-t border-white/10 py-14 lg:grid-cols-[0.65fr_1.35fr] lg:py-20">
-            <SectionHeading number="05" title={labels.development} />
-            <div>
-              <dl className="grid gap-x-8 sm:grid-cols-2">
-                {developmentItems.map((item) => (
-                  <div key={item.label} className="border-t border-white/10 py-4">
-                    <dt className="text-[9px] uppercase tracking-[0.35em] text-[#777]">{item.label}</dt>
-                    <dd className="mt-2 text-sm leading-6 text-[#d0d0d0]">{item.value}</dd>
-                  </div>
-                ))}
-              </dl>
-              <p className="mt-5 border-l border-[#b3002d] pl-4 text-xs leading-6 text-[#858585]">{development.note}</p>
-            </div>
-          </section>
-        </CaseReveal>
-
-        <CaseReveal>
-          <section className="border-t border-white/10 py-14 lg:py-20">
-            <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-              <SectionHeading number="06" title={labels.final} />
-              <a href={project.liveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-[#ff1a4d] transition hover:text-white">
+          <section className="border-t border-white/10 py-10 sm:py-14 lg:py-16">
+            <div className="grid gap-5 border border-[#c8102e]/35 bg-[linear-gradient(120deg,rgba(179,0,45,0.18),rgba(255,255,255,0.015)_55%)] p-5 sm:grid-cols-[1fr_auto] sm:items-end sm:gap-8 sm:p-8 lg:p-10">
+              <div>
+                <p className="text-[8px] font-semibold uppercase tracking-[0.32em] text-[#ff526f] sm:text-[9px]">04 / {labels.final}</p>
+                <h2 className="mt-3 text-2xl font-semibold uppercase leading-none tracking-[-0.055em] sm:text-4xl">{project.title}</h2>
+                <p className="mt-3 max-w-2xl text-xs leading-6 text-white/55 sm:text-sm sm:leading-7">{copy.highlightsTitle}: {copy.highlights.join(" · ")}</p>
+              </div>
+              <a href={project.liveUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-between gap-8 border border-white/25 px-4 py-3 text-[9px] font-semibold uppercase tracking-[0.22em] transition hover:border-[#c8102e] hover:bg-[#c8102e] sm:min-w-44 sm:px-5">
                 {labels.open}<ArrowUpRight className="h-4 w-4" />
               </a>
             </div>
-            <CaseVisual
-              src={project.previewUrl}
-              alt={`${project.title} — ${labels.final}`}
-              fit={project.previewFit}
-              className="aspect-[4/3] min-h-64 border border-white/10 bg-[#100d0c] sm:aspect-video sm:min-h-120 lg:min-h-150"
-              imageClassName="transition-transform duration-700 group-hover:scale-[1.025]"
-            >
-              <div className="flex h-full items-end justify-between gap-6 p-6 sm:p-10">
-                <div>
-                  <p className="text-[9px] uppercase tracking-[0.35em] text-white/60">{project.client}</p>
-                  <p className="mt-3 text-2xl font-medium uppercase tracking-[-0.04em] sm:text-4xl">{project.title}</p>
-                </div>
-                <span className="mb-1 inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/30 bg-black/20 backdrop-blur transition group-hover:bg-[#b3002d]">
-                  <ArrowUpRight className="h-5 w-5" />
-                </span>
-              </div>
-            </CaseVisual>
           </section>
         </CaseReveal>
 
         <CaseReveal>
-          <section className="border-t border-white/10 pt-12 lg:pt-16">
-            <p className="mb-5 text-[9px] uppercase tracking-[0.4em] text-[#777]">{labels.next}</p>
-            <Link href={withLocale(`/work/${nextProject.slug}`, locale)} className="group block">
-              <CaseVisual
-                src={nextProject.previewUrl}
-                alt={`${labels.next}: ${nextProject.title}`}
-                fit={nextProject.previewFit}
-                className="flex min-h-64 items-end border border-white/10 bg-[#100d0c] transition-colors duration-500 group-hover:border-[#ff1a4d]/50 sm:min-h-97.5 lg:min-h-115"
-                imageClassName="transition-transform duration-1000 group-hover:scale-[1.035]"
-              >
-                <div className="flex w-full items-end justify-between gap-3 p-5 sm:gap-6 sm:p-12">
-                  <div>
-                    <p className="text-[9px] uppercase tracking-[0.35em] text-white/60">{labels.nextHint}</p>
-                    <h2 className="mt-3 text-3xl font-medium uppercase leading-none tracking-[-0.06em] text-white transition-transform duration-500 group-hover:translate-x-2 sm:text-6xl lg:text-7xl">{nextProject.title}</h2>
-                  </div>
-                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/30 bg-black/20 text-white transition duration-500 group-hover:rotate-45 group-hover:border-[#ff1a4d] group-hover:bg-[#b3002d] sm:h-12 sm:w-12">
-                    <ArrowRight className="h-5 w-5" />
-                  </span>
-                </div>
-              </CaseVisual>
+          <section className="border-t border-white/10 pt-8 sm:pt-10">
+            <p className="mb-4 text-[8px] font-semibold uppercase tracking-[0.32em] text-white/40 sm:text-[9px]">{labels.next}</p>
+            <Link href={withLocale(`/work/${nextProject.slug}`, locale)} className="group flex items-center justify-between gap-5 border border-white/12 bg-[#080808] p-4 transition hover:border-[#c8102e]/70 sm:p-6 lg:p-8">
+              <div>
+                <p className="text-[8px] font-semibold uppercase tracking-[0.28em] text-[#ff526f]">{labels.nextHint}</p>
+                <h2 className="mt-2 text-xl font-semibold uppercase leading-none tracking-[-0.05em] transition group-hover:text-[#ff526f] sm:text-3xl lg:text-4xl">{nextProject.title}</h2>
+                <p className="mt-2 max-w-xl text-[10px] leading-5 text-white/45 sm:text-xs sm:leading-6">{nextProject.copy[locale].summary}</p>
+              </div>
+              <span aria-hidden="true" className="inline-flex h-11 w-11 shrink-0 items-center justify-center border border-white/25 transition group-hover:rotate-45 group-hover:border-[#ff1a4d] group-hover:bg-[#c8102e] sm:h-14 sm:w-14">
+                <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
+              </span>
             </Link>
           </section>
         </CaseReveal>
@@ -313,9 +255,9 @@ export default async function ProjectDetailPage({
 
 function MetaItem({ label, value }: { label: string; value: string }) {
   return (
-    <div>
-      <p className="text-[9px] uppercase tracking-[0.34em] text-[#777]">{label}</p>
-      <p className="mt-3 text-sm text-[#e4e4e4]">{value}</p>
+    <div className="border-t border-white/10 py-4 first:border-t-0 sm:first:border-t-0 lg:border-t-0">
+      <dt className="text-[8px] font-semibold uppercase tracking-[0.32em] text-white/40">{label}</dt>
+      <dd className="mt-2 text-xs leading-5 text-white/75 sm:text-sm">{value}</dd>
     </div>
   );
 }
@@ -323,8 +265,8 @@ function MetaItem({ label, value }: { label: string; value: string }) {
 function SectionHeading({ number, title }: { number: string; title: string }) {
   return (
     <div>
-      <p className="text-[9px] tracking-[0.3em] text-[#ff1a4d]">{number} /</p>
-      <h2 className="mt-3 text-3xl font-medium uppercase tracking-[-0.055em] text-[#f5f5f5] sm:text-4xl">{title}</h2>
+      <p className="text-[9px] font-semibold tracking-[0.3em] text-[#ff526f]">{number} /</p>
+      <h2 className="mt-3 text-2xl font-semibold uppercase leading-[0.94] tracking-[-0.055em] text-white sm:text-3xl lg:text-4xl">{title}</h2>
     </div>
   );
 }

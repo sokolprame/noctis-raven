@@ -1,85 +1,95 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import Footer from "@/components/Footer";
+import HeroPortrait from "@/components/HeroPortrait";
 import SiteHeader from "@/components/SiteHeader";
 import { resolveLocale, withLocale } from "@/lib/i18n";
+
+export const metadata: Metadata = {
+  title: "Обо мне",
+  description: "Портфолио NOCTIS RAVEN: цифровой дизайн, разработка сайтов и иллюстрация.",
+};
 
 export default async function AboutPage({ searchParams }: { searchParams?: Promise<{ lang?: string }> }) {
   const params = searchParams ? await searchParams : {};
   const locale = resolveLocale(params.lang);
   const isRu = locale === "ru";
+  const steps = isRu
+    ? ["Идея и контекст", "Структура и направление", "Визуальная система", "Реализация и детали"]
+    : ["Idea and context", "Structure and direction", "Visual system", "Build and finish"];
 
   return (
     <main className="min-h-screen bg-[#050505] text-[#f5f5f5]">
       <SiteHeader />
-      <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
-        <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">
-          {isRu ? "ОБО МНЕ" : "ABOUT ME"}
-        </p>
-        <h1 className="mt-6 text-3xl font-medium uppercase leading-[1.02] tracking-[-0.06em] text-[#f5f5f5] sm:text-6xl">
-          {isRu ? "Я НА СТЫКЕ ИСКУССТВА И ТЕХНОЛОГИЙ." : "I WORK AT THE INTERSECTION OF ART AND TECHNOLOGY."}
-        </h1>
-
-        <div className="mt-10 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="space-y-6 text-lg leading-8 text-[#d9d9d9]">
-            <p>
-              {isRu
-                ? "Я создаю вещи, которые ощущаются атмосферными, продуманными и живыми. Моя работа соединяет визуальное повествование, продуктовый подход и интерактивный дизайн в проекты с ярким характером."
-                : "I create things that feel atmospheric, considered, and alive. My work blends visual storytelling, product thinking, and interaction design into projects that carry a clear identity."}
-            </p>
-            <p>
-              {isRu
-                ? "Будь то портфолио, цифровой бренд или тёмная иллюстрация — цель всегда одна: построить что-то с характером, ясностью и эмоциональной глубиной."
-                : "Whether I am developing a portfolio, designing a digital brand, or crafting a dark illustration, the goal is always the same: build something with character, focus, and emotional weight."}
-            </p>
-            <p>
-              {isRu
-                ? "Дизайнер. Художник. Разработчик. Я объединяю эти роли, чтобы создавать выразительные цифровые проекты с ясной идеей."
-                : "Designer. Artist. Developer. I bring these roles together to make expressive digital work with a clear point of view."}
-            </p>
-          </div>
-
-          <div className="space-y-4 border border-white/10 bg-[#0a0a0a] p-6">
-            <p className="text-[11px] uppercase tracking-[0.38em] text-[#ff1a4d]">{isRu ? "КЛЮЧЕВОЕ" : "CORE"}</p>
-            <div className="space-y-4 text-sm text-[#d4d4d4]">
-              <div className="flex flex-col gap-1 border-b border-white/5 pb-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-                <span>{isRu ? "Дизайн" : "Designer"}</span>
-                <span className="break-words text-[#a1a1a1] sm:text-right">{isRu ? "UI / identity / визуальные системы" : "UI / identity / visual systems"}</span>
-              </div>
-              <div className="flex flex-col gap-1 border-b border-white/5 pb-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-                <span>{isRu ? "Искусство" : "Artist"}</span>
-                <span className="break-words text-[#a1a1a1] sm:text-right">{isRu ? "иллюстрация / портреты / worldbuilding" : "illustration / portraits / worldbuilding"}</span>
-              </div>
-              <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-                <span>{isRu ? "Разработка" : "Developer"}</span>
-                <span className="break-words text-[#a1a1a1] sm:text-right">{isRu ? "web / frontend / продуктовые решения" : "web / frontend / product experiences"}</span>
-              </div>
+      <div className="mx-auto max-w-7xl px-5 pb-14 pt-8 sm:px-8 sm:pb-20 sm:pt-12 lg:px-10">
+        <section className="grid items-center gap-5 border-b border-white/10 pb-8 sm:gap-8 sm:pb-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:pb-16">
+          <div>
+            <p className="text-[9px] font-semibold uppercase tracking-[0.36em] text-[#ff526f] sm:text-[10px] sm:tracking-[0.42em]">{isRu ? "ОБО МНЕ / NOCTIS RAVEN" : "ABOUT / NOCTIS RAVEN"}</p>
+            <h1 className="mt-5 text-[clamp(2.7rem,7.4vw,6.5rem)] font-black uppercase leading-[0.84] tracking-[-0.075em] text-white">
+              {isRu ? <><span className="block">ИСКУССТВО</span><span className="block text-[#c8102e]">И ТЕХНОЛОГИИ.</span></> : <><span className="block">ART AND</span><span className="block text-[#c8102e]">TECHNOLOGY.</span></>}
+            </h1>
+            <div className="mt-6 max-w-2xl space-y-4 text-sm leading-7 text-white/60 sm:mt-8 sm:text-base sm:leading-8">
+              <p>
+                {isRu
+                  ? "Я создаю вещи, которые ощущаются атмосферными, продуманными и живыми. Моя работа соединяет визуальное повествование, продуктовый подход и интерактивный дизайн."
+                  : "I create work that feels atmospheric, considered, and alive. My practice brings visual storytelling, product thinking, and interaction design together."}
+              </p>
+              <p>
+                {isRu
+                  ? "От веб-сайтов и цифровых брендов до тёмных иллюстраций — каждый проект начинается с ясной идеи и заканчивается вниманием к деталям."
+                  : "From websites and digital identities to dark illustration, every project starts with a clear idea and is finished with care for the details."}
+              </p>
             </div>
+            <Link href={withLocale("/contact", locale)} className="mt-6 inline-flex min-h-12 items-center gap-3 bg-[#c8102e] px-5 py-3 text-[9px] font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-[#ed1739] sm:mt-8 sm:px-6 sm:text-[10px]">
+              {isRu ? "ОБСУДИТЬ ПРОЕКТ" : "START A PROJECT"}<ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
-        </div>
 
-        <div className="mt-16 border border-white/10 bg-[#0a0a0a] p-8">
-          <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{isRu ? "ПОДХОД" : "APPROACH"}</p>
-          <div className="mt-8 flex flex-col gap-5">
-            {[
-              isRu ? "ИДЕЯ" : "IDEA",
-              isRu ? "НАПРАВЛЕНИЕ" : "DIRECTION",
-              isRu ? "ДЕТАЛИ" : "DETAIL",
-              isRu ? "РЕАЛИЗАЦИЯ" : "DELIVERY",
-            ].map((step, index) => (
-              <div key={step} className="flex items-center gap-4 text-sm uppercase tracking-[0.26em] text-[#d5d5d5]">
-                <span className="font-bold text-[#ff1a4d]">{String(index + 1).padStart(2, "0")}</span>
-                <span className="h-px w-7 bg-white/20" />
-                <span>{step}</span>
+          <div className="mx-auto w-full max-w-[560px] lg:ml-auto">
+            <HeroPortrait locale={locale} />
+          </div>
+        </section>
+
+        <section className="grid gap-px border-b border-white/10 bg-white/10 sm:grid-cols-3" aria-label={isRu ? "Направления работы" : "Areas of work"}>
+          {[
+            { index: "01", title: isRu ? "ДИЗАЙН" : "DESIGN", detail: isRu ? "UI/UX · визуальные системы · направление" : "UI/UX · visual systems · direction" },
+            { index: "02", title: isRu ? "РАЗРАБОТКА" : "DEVELOPMENT", detail: isRu ? "Интерактивные сайты · frontend · продукт" : "Interactive sites · frontend · product" },
+            { index: "03", title: isRu ? "АРТ" : "ART", detail: isRu ? "Иллюстрация · персонажи · визуальные эксперименты" : "Illustration · characters · visual experiments" },
+          ].map((item) => (
+            <article key={item.index} className="bg-[#080808] p-4 sm:p-5 lg:p-7">
+              <div className="flex items-center gap-3">
+                <span className="text-[9px] font-semibold tracking-[0.28em] text-[#ff526f]">{item.index}</span>
+                <span className="h-px flex-1 bg-white/10" />
               </div>
-            ))}
-          </div>
-        </div>
+              <h2 className="mt-5 text-lg font-semibold uppercase tracking-[-0.035em] sm:mt-7 sm:text-xl">{item.title}</h2>
+              <p className="mt-2 text-xs leading-6 text-white/50 sm:text-sm">{item.detail}</p>
+            </article>
+          ))}
+        </section>
 
-        <div className="mt-12">
-          <Link href={withLocale("/contact", locale)} className="inline-flex items-center gap-3 bg-[#c8102e] px-6 py-4 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#f5f5f5] transition hover:bg-[#ed1739]">
-            {isRu ? "НАЧАТЬ ПРОЕКТ" : "START A PROJECT"}
+        <section className="grid gap-6 border-b border-white/10 py-10 sm:gap-10 sm:py-14 lg:grid-cols-[0.7fr_1.3fr] lg:py-16">
+          <div>
+            <p className="text-[9px] font-semibold uppercase tracking-[0.36em] text-[#ff526f]">{isRu ? "ПОДХОД" : "APPROACH"}</p>
+            <h2 className="mt-4 max-w-md text-3xl font-semibold uppercase leading-[0.9] tracking-[-0.06em] sm:text-4xl">{isRu ? "ОТ ПЕРВОЙ ИДЕИ ДО ПОСЛЕДНЕГО ПИКСЕЛЯ." : "FROM THE FIRST IDEA TO THE LAST PIXEL."}</h2>
+          </div>
+          <ol className="grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2">
+            {steps.map((step, index) => (
+              <li key={step} className="flex min-h-20 items-center gap-4 bg-[#080808] p-4 sm:min-h-24 sm:p-5">
+                <span className="text-[9px] font-semibold tracking-[0.24em] text-[#ff526f]">0{index + 1}</span>
+                <span className="h-px w-6 shrink-0 bg-[#c8102e]/70" />
+                <span className="text-[10px] font-medium uppercase tracking-[0.12em] text-white/75 sm:text-xs sm:tracking-[0.16em]">{step}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="flex flex-col gap-4 pt-8 sm:flex-row sm:items-center sm:justify-between sm:pt-10">
+          <p className="text-[9px] font-semibold uppercase tracking-[0.32em] text-white/45">{isRu ? "ОТКРЫТ К СОТРУДНИЧЕСТВУ" : "AVAILABLE FOR PROJECTS"}</p>
+          <Link href={withLocale("/work", locale)} className="inline-flex min-h-11 items-center gap-3 border border-white/20 px-4 py-3 text-[9px] font-semibold uppercase tracking-[0.22em] transition hover:border-[#c8102e] hover:text-[#ff526f]">
+            {isRu ? "СМОТРЕТЬ РАБОТЫ" : "VIEW WORK"}<ArrowRight className="h-4 w-4" />
           </Link>
-        </div>
+        </section>
       </div>
       <Footer />
     </main>

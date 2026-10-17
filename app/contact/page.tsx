@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
 import { ArrowRight, ArrowUpRight, Github, Instagram, Mail, Send } from "lucide-react";
 import Footer from "@/components/Footer";
 import HeroPortrait from "@/components/HeroPortrait";
 import SiteHeader from "@/components/SiteHeader";
 import ContactSection from "@/components/ContactSection";
 import { resolveLocale } from "@/lib/i18n";
+
+export const metadata: Metadata = {
+  title: "Контакты",
+  description: "Связаться с NOCTIS RAVEN по поводу веб-дизайна, разработки или цифрового искусства.",
+};
 
 const contacts = [
   { label: "Telegram", value: "@noctisraven", href: "https://t.me/noctisraven", icon: Send },
@@ -43,7 +49,7 @@ export default async function ContactPage({ searchParams }: { searchParams?: Pro
             </a>
           </div>
 
-          <div className="relative mx-auto aspect-square w-full max-w-[330px] min-w-0 md:aspect-[1.08/1] md:max-w-none md:h-[330px] lg:h-[410px]">
+          <div className="relative mx-auto aspect-square w-full max-w-[400px] min-w-0 md:aspect-[1.08/1] md:max-w-none md:h-[330px] lg:h-[410px]">
             <HeroPortrait locale={locale} compact />
           </div>
         </section>

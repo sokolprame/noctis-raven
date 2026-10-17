@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import AmbientParticles from "@/components/AmbientParticles";
+import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,8 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://noctis-raven.studio"),
-  title: "NOCTIS — Artist, Designer & Web Developer",
+  metadataBase: siteUrl,
+  title: {
+    default: "NOCTIS RAVEN — Artist, Designer & Web Developer",
+    template: "%s | NOCTIS RAVEN",
+  },
   description:
     "Portfolio of Noctis Raven — digital artist, designer and web developer creating visual experiences and modern web projects.",
   keywords: [
@@ -28,18 +32,20 @@ export const metadata: Metadata = {
     "portfolio",
   ],
   openGraph: {
-    title: "NOCTIS — Artist, Designer & Web Developer",
+    title: "NOCTIS RAVEN — Artist, Designer & Web Developer",
     description:
-      "Dark minimal portfolio for digital art, interface design and premium web experiences.",
-    url: "https://noctis-raven.studio",
-    siteName: "NOCTIS",
+      "Digital art, interface design and expressive web experiences by NOCTIS RAVEN.",
+    url: siteUrl,
+    siteName: "NOCTIS RAVEN",
     type: "website",
+    images: [{ url: "/noctis-portrait.png", width: 1024, height: 1024, alt: "Portrait of NOCTIS RAVEN" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "NOCTIS — Artist, Designer & Web Developer",
+    title: "NOCTIS RAVEN — Artist, Designer & Web Developer",
     description:
-      "Dark minimal portfolio for digital art, interface design and premium web experiences.",
+      "Digital art, interface design and expressive web experiences by NOCTIS RAVEN.",
+    images: ["/noctis-portrait.png"],
   },
 };
 

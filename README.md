@@ -1,24 +1,27 @@
 # NOCTIS RAVEN
 
-Bilingual portfolio built with Next.js 16, React 19, and Tailwind CSS 4.
+Bilingual creative portfolio built with Next.js 16, React 19, and Tailwind CSS 4.
 
-## Local development
+## Run locally
 
-1. Install Node.js 20.9 or later and PostgreSQL 15 or later.
-2. Copy `.env.example` to `.env.local`; set `DATABASE_URL`, `ADMIN_PASSWORD`, and a random `ADMIN_SESSION_SECRET` of at least 32 characters.
-3. Create the database named in `DATABASE_URL`, then apply migrations `001_create_projects.sql`, `002_portfolio_tables.sql`, and `003_contact_requests.sql` in order.
-4. Install dependencies with `npm ci`, then run `npm run dev` and open <http://localhost:3000>.
+1. Install Node.js 20.9 or later.
+2. Copy `.env.example` to `.env.local` and replace the example values.
+3. Create a PostgreSQL 15+ database, set `DATABASE_URL`, then apply `migrations/003_contact_requests.sql` to enable the contact form inbox.
+4. Install packages with `npm ci` and run `npm run dev`. Open <http://localhost:3000>.
 
-For an optional PostgreSQL seed, run `npm run seed` after the schema is installed.
+The website itself can run without PostgreSQL. Without a database, the contact form offers a prefilled email draft and the admin inbox is unavailable.
 
-## Hosting
+## Deploy
 
-- Deploy as a Node.js Next.js application (for example, Vercel). Configure `DATABASE_URL`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_SECRET` in the host's encrypted environment settings. Never commit `.env.local` or production credentials.
-- Apply all three SQL migrations to the production database before enabling contact submissions or the admin routes.
-- Run `npm run build` as the deployment build command and `npm run start` for a self-hosted Node deployment. Set the deployment platform's Node version to 20.9 or later.
-- The public project cards and case pages currently come from `lib/site-data.ts`. The protected admin portfolio endpoints use PostgreSQL but do not currently publish edits to those static case pages.
-- Contact requests are saved in PostgreSQL. If the API is unavailable, the form opens a prefilled email draft addressed to `raven4noctis@gmail.com`.
+Deploy this as a Node.js Next.js application. Use Node.js 20.9 or later, `npm run build` as the build command, and `npm run start` for a self-hosted deployment. Set these values in the host's encrypted environment settings:
 
-## Content and languages
+- `SITE_URL`: the actual public URL for this deployment, including `https://`.
+- `DATABASE_URL`: a PostgreSQL connection string. Apply `003_contact_requests.sql` first.
+- `ADMIN_PASSWORD`: a unique, long password for `/admin`.
+- `ADMIN_SESSION_SECRET`: a private random secret with at least 32 characters.
 
-Edit project details in `lib/site-data.ts`. Pages support Russian and English through the `?lang=ru` and `?lang=en` query parameters.
+Never commit `.env.local` or production credentials. The public cases are maintained in `lib/site-data.ts`; update the details and image URLs there. `/admin/messages` displays contact requests stored in PostgreSQL. The project catalog admin routes are legacy and do not publish to the public case pages.
+
+## Languages and content
+
+Public pages support Russian and English with `?lang=ru` and `?lang=en`. Edit project content in `lib/site-data.ts` and social/contact details in the page components.

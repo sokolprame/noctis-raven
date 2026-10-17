@@ -15,39 +15,24 @@ export default async function AdminPage() {
             <div>
               <h1 className="text-2xl font-semibold uppercase tracking-[0.14em] text-[#f8f5f5] sm:text-4xl sm:tracking-[0.24em]">Админ-панель</h1>
               <p className="mt-4 max-w-2xl text-base leading-8 text-[#b9b2bc]">
-                Здесь управляется каталог проектов — пароль защищает доступ к административной части.
+                Здесь собраны входящие заявки. Тексты публичных кейсов редактируются в файле lib/site-data.ts.
               </p>
             </div>
-            <Link
-              href="/api/admin/logout"
-              className="inline-flex items-center justify-center rounded-full border border-white/10 bg-[#111116]/95 px-5 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#f8f5f5] transition hover:border-[#ff1a4d] hover:text-[#ff1a4d]"
-            >
-              Выйти
-            </Link>
+            <form action="/api/admin/logout" method="post">
+              <button type="submit" className="inline-flex items-center justify-center border border-white/10 bg-[#111116]/95 px-5 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#f8f5f5] transition hover:border-[#ff1a4d] hover:text-[#ff1a4d]">Выйти</button>
+            </form>
           </div>
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2">
+          <div className="mt-10 grid gap-4">
             <Link
-              href="/admin/projects"
-              className="rounded-[24px] border border-white/10 bg-[#09090f]/80 p-5 text-left transition hover:border-[#ff1a4d]/40 sm:rounded-[28px] sm:p-8"
+              href="/admin/messages"
+              className="border border-white/10 bg-[#09090f]/80 p-5 text-left transition hover:border-[#ff1a4d]/50 sm:p-7"
             >
-              <p className="text-sm uppercase tracking-[0.3em] text-[#8f8a91]">Каталог</p>
-              <h2 className="mt-4 text-2xl font-semibold text-[#f8f5f5]">Проекты</h2>
-              <p className="mt-3 text-sm leading-7 text-[#c9c2c9]">
-                Просматривайте и управляйте записями проекта в таблице, аналогично Django admin.
-              </p>
+              <p className="text-sm uppercase tracking-[0.3em] text-[#8f8a91]">Контактная форма</p>
+              <h2 className="mt-4 text-xl font-semibold text-[#f8f5f5]">Входящие сообщения</h2>
+              <p className="mt-3 text-sm leading-6 text-[#c9c2c9]">Читайте заявки с сайта и отвечайте отправителю напрямую по email.</p>
             </Link>
 
-            <Link
-              href="/admin/portfolio"
-              className="rounded-[24px] border border-white/10 bg-[#09090f]/80 p-5 text-left transition hover:border-[#ff1a4d]/40 sm:rounded-[28px] sm:p-8"
-            >
-              <p className="text-sm uppercase tracking-[0.3em] text-[#8f8a91]">Портфолио</p>
-              <h2 className="mt-4 text-2xl font-semibold text-[#f8f5f5]">ART / WEB</h2>
-              <p className="mt-3 text-sm leading-7 text-[#c9c2c9]">
-                Управляйте арт-работами и веб-кейсами из PostgreSQL через административный список.
-              </p>
-            </Link>
           </div>
         </div>
       </div>

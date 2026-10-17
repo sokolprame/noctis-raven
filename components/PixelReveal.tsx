@@ -39,6 +39,11 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
       if (canvas) canvas.style.opacity = "0";
     };
 
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      revealImmediately();
+      return;
+    }
+
     if (!canvas || !context) {
       revealImmediately();
       return;
@@ -209,7 +214,7 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
         alt={locale === "ru" ? "Портрет Noctis Raven" : "Portrait of Noctis Raven"}
         fill
         priority
-        sizes={variant === "contact" ? "(max-width: 768px) 52vw, 39vw" : "(max-width: 1024px) 94vw, 52vw"}
+        sizes={variant === "contact" ? "(max-width: 768px) 88vw, 40vw" : "(max-width: 1024px) 94vw, 52vw"}
         className={`cyber-glitch-base object-cover opacity-100 transition-transform duration-700 group-hover:scale-[1.04] ${variant === "contact" ? "object-[center_30%]" : "object-center"}`}
       />
       <Image
@@ -217,7 +222,7 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
         alt=""
         aria-hidden="true"
         fill
-        sizes={variant === "contact" ? "(max-width: 768px) 52vw, 39vw" : "(max-width: 1024px) 94vw, 52vw"}
+        sizes={variant === "contact" ? "(max-width: 768px) 88vw, 40vw" : "(max-width: 1024px) 94vw, 52vw"}
         className={`cyber-glitch-layer cyber-glitch-layer-red object-cover ${variant === "contact" ? "object-[center_30%]" : "object-center"}`}
       />
       <Image
@@ -225,7 +230,7 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
         alt=""
         aria-hidden="true"
         fill
-        sizes={variant === "contact" ? "(max-width: 768px) 52vw, 39vw" : "(max-width: 1024px) 94vw, 52vw"}
+        sizes={variant === "contact" ? "(max-width: 768px) 88vw, 40vw" : "(max-width: 1024px) 94vw, 52vw"}
         className={`cyber-glitch-layer cyber-glitch-layer-cyan object-cover ${variant === "contact" ? "object-[center_30%]" : "object-center"}`}
       />
       <canvas ref={canvasRef} aria-hidden="true" className="pointer-events-none absolute inset-0 z-10 h-full w-full opacity-0" />
