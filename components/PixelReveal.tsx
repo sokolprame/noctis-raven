@@ -39,10 +39,7 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
       if (canvas) canvas.style.opacity = "0";
     };
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      revealImmediately();
-      return;
-    }
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (!canvas || !context) {
       revealImmediately();
@@ -52,6 +49,7 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
     let frameId = 0;
     let cancelled = false;
     let started = false;
+    let inView = false;
 
     const reveal = () => {
       if (started || cancelled) return;
@@ -96,7 +94,9 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
       // Hide the real photo only after we know the pixel canvas is ready.
       image.style.opacity = "0";
       canvas.style.opacity = "1";
-      const cellSize = width < 480 ? 16 : 13;
+      const cellSize = reducedMotion
+        ? width < 480 ? 19 : 16
+        : width < 480 ? 16 : 13;
       const pixels: Pixel[] = [];
 
       for (let y = 0; y < height; y += cellSize) {
@@ -109,21 +109,24 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
           const blue = pixelsData[offset + 2];
           const isAccent = Math.random() < 0.025;
 
+          const travel = reducedMotion ? 0.72 : 1.7;
           pixels.push({
             targetX: x,
             targetY: y,
-            startX: (Math.random() * 1.7 - 0.35) * width,
-            startY: (Math.random() * 1.7 - 0.35) * height,
+            startX: reducedMotion ? x + (Math.random() - 0.5) * width * travel : (Math.random() * 1.7 - 0.35) * width,
+            startY: reducedMotion ? y + (Math.random() - 0.5) * height * travel : (Math.random() * 1.7 - 0.35) * height,
             size: cellSize + 0.5,
             color: isAccent
               ? Math.random() < 0.7 ? "rgba(179,0,45,0.9)" : "rgba(255,255,255,0.85)"
               : `rgba(${red},${green},${blue},${pixelsData[offset + 3] / 255})`,
-            delay: Math.random() * 0.62,
-            duration: 3.55 + Math.random() * 0.7,
+            delay: Math.random() * (reducedMotion ? 0.16 : 0.62),
+            duration: reducedMotion ? 2 + Math.random() * 0.25 : 3.55 + Math.random() * 0.7,
           });
         }
       }
 
+      const sparkStart = reducedMotion ? 2.2 : 4.05;
+      const sparkDuration = reducedMotion ? 0.65 : 0.78;
       const sparks: Spark[] = Array.from({ length: 15 }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -131,10 +134,11 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
         driftY: (Math.random() - 0.5) * 38,
         size: 1 + Math.random() * 2,
         color: Math.random() < 0.72 ? "rgba(255,255,255,0.9)" : "rgba(255,26,77,0.95)",
-        delay: 4.05 + Math.random() * 0.35,
+        delay: sparkStart + Math.random() * (reducedMotion ? 0.12 : 0.35),
       }));
 
-      const duration = 5.25;
+      const duration = reducedMotion ? 3.1 : 5.25;
+      const revealAt = reducedMotion ? 2.35 : 4.35;
       const startTime = performance.now();
       image.style.transition = "opacity 780ms ease";
       canvas.style.transition = "opacity 780ms ease";
@@ -161,9 +165,9 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
           context.fillRect(x, y, pixel.size, pixel.size);
         }
 
-        const sparkProgress = Math.max(0, Math.min((elapsed - 4.05) / 0.78, 1));
+        const sparkProgress = Math.max(0, Math.min((elapsed - sparkStart) / sparkDuration, 1));
         for (const spark of sparks) {
-          const localProgress = Math.max(0, Math.min((elapsed - spark.delay) / 0.78, 1));
+          const localProgress = Math.max(0, Math.min((elapsed - spark.delay) / sparkDuration, 1));
           context.globalAlpha = (1 - localProgress) * 0.8;
           context.fillStyle = spark.color;
           context.fillRect(
@@ -175,9 +179,9 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
         }
         context.globalAlpha = 1;
 
-        if (elapsed >= 4.35) {
+        if (elapsed >= revealAt) {
           image.style.opacity = "1";
-          canvas.style.opacity = String(Math.max(0, 1 - (elapsed - 4.35) / 0.78));
+          canvas.style.opacity = String(Math.max(0, 1 - (elapsed - revealAt) / 0.78));
         }
 
         if (elapsed < duration || sparkProgress < 1) {
@@ -191,17 +195,34 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
       frameId = window.requestAnimationFrame(drawFrame);
     };
 
-    if (image.complete && image.naturalWidth) {
+    const revealWhenReady = () => {
+      if (!inView || !image.complete || !image.naturalWidth) return;
+      image.parentElement?.classList.add("portrait-effects-active");
       reveal();
+    };
+    const observer = typeof IntersectionObserver === "undefined"
+      ? null
+      : new IntersectionObserver((entries) => {
+          inView = entries.some((entry) => entry.isIntersecting);
+          if (inView) revealWhenReady();
+        }, { threshold: 0.03, rootMargin: "0px 0px 40px 0px" });
+    observer?.observe(canvas);
+    if (!observer) inView = true;
+
+    if (image.complete) {
+      if (image.naturalWidth) revealWhenReady();
+      else revealImmediately();
     } else {
-      image.addEventListener("load", reveal, { once: true });
+      image.addEventListener("load", revealWhenReady, { once: true });
       image.addEventListener("error", revealImmediately, { once: true });
     }
 
     return () => {
       cancelled = true;
       window.cancelAnimationFrame(frameId);
-      image.removeEventListener("load", reveal);
+      observer?.disconnect();
+      image.parentElement?.classList.remove("portrait-effects-active");
+      image.removeEventListener("load", revealWhenReady);
       image.removeEventListener("error", revealImmediately);
     };
   }, [variant]);
@@ -237,3 +258,4 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
     </>
   );
 }
+
