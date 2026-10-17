@@ -52,6 +52,45 @@ body::before {
   mask-image: linear-gradient(to bottom, black, transparent 82%);
 }
 
+.ambient-backdrop {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 82% 18%, rgba(179, 0, 45, 0.1), transparent 38%),
+    radial-gradient(ellipse at 18% 76%, rgba(92, 0, 34, 0.1), transparent 34%);
+}
+
+.ambient-backdrop::before,
+.ambient-backdrop::after {
+  position: absolute;
+  width: min(82vw, 850px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  content: "";
+  filter: blur(42px);
+  will-change: transform, opacity;
+}
+
+.ambient-backdrop::before {
+  top: -46%;
+  right: -28%;
+  opacity: 0.48;
+  background: radial-gradient(circle, rgba(176, 0, 47, 0.22), rgba(95, 0, 35, 0.09) 40%, transparent 70%);
+  animation: noctis-ambient-drift-one 27s ease-in-out infinite alternate;
+}
+
+.ambient-backdrop::after {
+  bottom: -56%;
+  left: -32%;
+  width: min(76vw, 740px);
+  opacity: 0.36;
+  background: radial-gradient(circle, rgba(112, 0, 42, 0.2), rgba(61, 0, 27, 0.08) 42%, transparent 70%);
+  animation: noctis-ambient-drift-two 34s ease-in-out infinite alternate;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -80,6 +119,7 @@ img {
 .cyber-glitch-base {
   transform-origin: center;
   animation: noctis-image-glitch 4.8s steps(1, end) infinite;
+  animation-play-state: paused;
 }
 
 .cyber-glitch-layer {
@@ -95,6 +135,7 @@ img {
   clip-path: inset(20% 0 66% 0);
   transform: translateX(-2px);
   animation: noctis-glitch-red 4.8s steps(1, end) infinite;
+  animation-play-state: paused;
 }
 
 .cyber-glitch-layer-cyan {
@@ -103,6 +144,7 @@ img {
   clip-path: inset(59% 0 27% 0);
   transform: translateX(2px);
   animation: noctis-glitch-cyan 4.8s steps(1, end) infinite;
+  animation-play-state: paused;
 }
 
 .cyber-glitch-overlay {
@@ -117,6 +159,15 @@ img {
   content: "";
   opacity: 0;
   mix-blend-mode: screen;
+  animation-play-state: paused;
+}
+
+.portrait-effects-active .cyber-glitch-base,
+.portrait-effects-active .cyber-glitch-layer-red,
+.portrait-effects-active .cyber-glitch-layer-cyan,
+.portrait-effects-active .cyber-glitch-overlay::before,
+.portrait-effects-active .cyber-glitch-overlay::after {
+  animation-play-state: running;
 }
 
 .noctis-portrait-mask {
@@ -175,6 +226,16 @@ img {
   56.8% { opacity: 0; transform: translateX(0); }
 }
 
+@keyframes noctis-ambient-drift-one {
+  from { transform: translate3d(0, 0, 0) scale(0.92); opacity: 0.38; }
+  to { transform: translate3d(-12vw, 14vh, 0) scale(1.08); opacity: 0.62; }
+}
+
+@keyframes noctis-ambient-drift-two {
+  from { transform: translate3d(0, 0, 0) scale(1.06); opacity: 0.32; }
+  to { transform: translate3d(14vw, -12vh, 0) scale(0.9); opacity: 0.5; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -183,6 +244,21 @@ img {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .cyber-glitch-base,
+  .cyber-glitch-layer-red,
+  .cyber-glitch-layer-cyan,
+  .cyber-glitch-overlay::before,
+  .cyber-glitch-overlay::after {
+    animation-duration: 5.6s !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .ambient-backdrop::before,
+  .ambient-backdrop::after {
+    animation-duration: 50s !important;
+    animation-iteration-count: 1 !important;
   }
 
   .case-reveal {
@@ -196,3 +272,4 @@ img {
     display: none !important;
   }
 }
+
