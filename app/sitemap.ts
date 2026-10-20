@@ -1,8 +1,11 @@
 import type { MetadataRoute } from "next";
-import { portfolioProjects } from "@/lib/site-data";
+import { getPublicPortfolioProjects } from "@/lib/public-portfolio";
 import { siteUrl } from "@/lib/site-url";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 0;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const projects = await getPublicPortfolioProjects();
   return [
     {
       url: new URL("/", siteUrl).toString(),
@@ -22,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.9,
     },
-    ...portfolioProjects.map((project) => ({
+    ...projects.map((project) => ({
       url: new URL(`/work/${project.slug}`, siteUrl).toString(),
       lastModified: new Date(),
       changeFrequency: "monthly" as const,

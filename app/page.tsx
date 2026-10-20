@@ -1,48 +1,64 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Circle, Mail } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, ArrowUpRight, Braces, Code2, Layers3, Mail, MessageSquare, Paintbrush2, Rocket, ScanLine, Sparkles } from "lucide-react";
 import BrandMark from "@/components/BrandMark";
 import CustomCursor from "@/components/CustomCursor";
 import HeroPortrait from "@/components/HeroPortrait";
 import ProjectFilter from "@/components/ProjectFilter";
 import SiteHeader from "@/components/SiteHeader";
 import { resolveLocale, withLocale } from "@/lib/i18n";
+import { getPublicPortfolioProjects } from "@/lib/public-portfolio";
 
-const expertise = [
-  {
-    label: "DESIGN",
-    items: ["UI/UX", "Visual Design", "Branding", "Typography", "Art Direction"],
-  },
-  {
-    label: "DEVELOPMENT",
-    items: ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Next.js", "Python", "Django", "Tailwind CSS", "Framer Motion"],
-  },
-  {
-    label: "ART",
-    items: ["Digital Illustration", "Concept Art", "Character Design", "Portraits", "Visual Experiments"],
-  },
-];
+export const revalidate = 0;
 
 const services = [
   {
     index: "01",
-    title: "WEB DEVELOPMENT",
-    list: ["Landing pages", "Portfolio websites", "Interactive websites", "Full-stack applications"],
+    title: { ru: "РАЗРАБОТКА", en: "DEVELOPMENT" },
+    text: { ru: "Цифровые продукты с точной логикой и характером.", en: "Digital products with precise logic and a point of view." },
+    action: { ru: "ОБСУДИТЬ ПРОЕКТ", en: "PLAN A PROJECT" },
+    image: "/portfolio/web/luna-protocol-cover.svg",
+    icon: Code2,
   },
   {
     index: "02",
-    title: "DESIGN",
-    list: ["UI/UX", "Visual identity", "Web design", "Creative direction"],
+    title: { ru: "ИНТЕРФЕЙСЫ", en: "INTERFACES" },
+    text: { ru: "Чёткая структура, выразительная система, сильная типографика.", en: "Clear structure, expressive systems, confident typography." },
+    action: { ru: "ОБСУДИТЬ ПРОЕКТ", en: "PLAN A PROJECT" },
+    image: "/portfolio/web/velvet-flagship-cover.svg",
+    icon: Layers3,
   },
   {
     index: "03",
-    title: "DIGITAL ART",
-    list: ["Illustrations", "Portraits", "Character art", "Custom artwork"],
+    title: { ru: "ЦИФРОВОЕ ИСКУССТВО", en: "DIGITAL ART" },
+    text: { ru: "Персонажи, образы и визуальные миры с собственной мифологией.", en: "Characters, imagery, and visual worlds with their own mythology." },
+    action: { ru: "ОБСУДИТЬ ПРОЕКТ", en: "PLAN A PROJECT" },
+    image: "/portfolio/art/raven-revenant-cover.svg",
+    icon: Paintbrush2,
+  },
+  {
+    index: "04",
+    title: { ru: "ВИЗУАЛЬНЫЕ СИСТЕМЫ", en: "VISUAL SYSTEMS" },
+    text: { ru: "Айдентика, арт-дирекшн и единый визуальный язык бренда.", en: "Identity, art direction, and a coherent brand language." },
+    action: { ru: "ОБСУДИТЬ ПРОЕКТ", en: "PLAN A PROJECT" },
+    image: "/portfolio/art/blood-moon-ritual-cover.svg",
+    icon: Sparkles,
   },
 ];
+
+const processSteps = [
+  { index: "01", icon: MessageSquare, title: { ru: "ДИАЛОГ", en: "DISCUSS" }, text: { ru: "Сверяем задачу, контекст и то чувство, которое проект должен оставить.", en: "We align on the brief, context, and the feeling the work should leave." } },
+  { index: "02", icon: ScanLine, title: { ru: "НАПРАВЛЕНИЕ", en: "DIRECTION" }, text: { ru: "Собираю идею в ясную структуру и визуальную систему.", en: "I shape the idea into a clear structure and visual system." } },
+  { index: "03", icon: Braces, title: { ru: "СОЗДАНИЕ", en: "BUILD" }, text: { ru: "Проектирую и собираю решение, внимательно работая с деталями.", en: "I design and build the experience with close attention to detail." } },
+  { index: "04", icon: Rocket, title: { ru: "ЗАПУСК", en: "RELEASE" }, text: { ru: "Проверяю результат и передаю готовую работу в жизнь.", en: "I review the result and send the finished work into the world." } },
+];
+
+const skills = ["ART DIRECTION", "UI / UX", "NEXT.JS", "REACT", "TYPESCRIPT", "MOTION DESIGN", "DIGITAL ART", "VISUAL IDENTITY"];
 
 export default async function HomePage({ searchParams }: { searchParams?: Promise<{ lang?: string }> }) {
   const params = searchParams ? await searchParams : {};
   const locale = resolveLocale(params.lang);
+  const projects = await getPublicPortfolioProjects();
   const t = locale === "ru"
     ? {
         nav: { work: "Работы", about: "Обо мне", contact: "Контакты" },
@@ -137,107 +153,66 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
         </div>
       </div>
 
-      <section id="work" className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
-        <div className="mb-10 flex items-end justify-between gap-6 border-b border-white/10 pb-6">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{t.sectionWork}</p>
-            <h2 className="mt-4 text-4xl font-medium uppercase tracking-[-0.06em] text-[#f5f5f5] sm:text-5xl">{locale === "ru" ? "ПРОЕКТЫ" : "PROJECTS"}</h2>
-          </div>
-          <Link href={withLocale("/work", locale)} className="hidden items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-[#ff1a4d] md:inline-flex">
-            {locale === "ru" ? "Показать все" : "VIEW ALL"} <ArrowUpRight className="h-4 w-4" />
-          </Link>
+      <section id="about" className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
+        <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-4">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.34em] text-[#ff526f]">01 / {locale === "ru" ? "ОБО МНЕ" : "ABOUT ME"}</p>
+          <span className="text-[8px] uppercase tracking-[0.28em] text-white/35">{locale === "ru" ? "ЧЕЛОВЕК × ТЕХНОЛОГИИ" : "HUMAN × TECHNOLOGY"}</span>
         </div>
-
-        <ProjectFilter />
-      </section>
-
-      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="space-y-6">
-            <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{t.sectionAbout}</p>
-            <h2 className="text-4xl font-medium uppercase tracking-[-0.06em] text-[#f5f5f5] sm:text-5xl">
-              {t.heroTitle[0] === "I CREATE" ? "I DESIGN." : "Я ДИЗАЙНИРУЮ."}
-              <br />
-              {t.heroTitle[0] === "I CREATE" ? "I DRAW." : "Я РИСУЮ."}
-              <br />
-              {t.heroTitle[0] === "I CREATE" ? "I BUILD." : "Я СТРОЮ."}
-            </h2>
+        <div className="grid overflow-hidden border border-white/10 bg-[#090909] lg:grid-cols-[0.78fr_1.22fr]">
+          <div className="relative z-10 flex flex-col justify-center p-6 sm:p-9 lg:p-11">
+            <h2 className="text-3xl font-black uppercase leading-[0.92] tracking-[-0.065em] sm:text-5xl">{locale === "ru" ? <>ИДЕЯ.<br /><span className="text-[#c8102e]">АТМОСФЕРА.</span><br />ТОЧНОСТЬ.</> : <>IDEA.<br /><span className="text-[#c8102e]">ATMOSPHERE.</span><br />INTENT.</>}</h2>
+            <p className="mt-6 max-w-lg text-sm leading-7 text-white/65 sm:text-base sm:leading-8">{locale === "ru" ? "Я соединяю цифровое искусство, дизайн и разработку, чтобы создавать цельные миры — от первого эскиза до работающего сайта." : "I bring digital art, design, and development together to create complete worlds — from the first sketch to a living website."}</p>
+            <p className="mt-4 max-w-lg border-l border-[#c8102e] pl-4 text-xs leading-6 text-white/45 sm:text-sm">{locale === "ru" ? "Каждый проект начинается с идеи и становится выразительным через детали." : "Every project begins with an idea and becomes distinctive through its details."}</p>
+            <Link href={withLocale("/about", locale)} className="mt-7 inline-flex min-h-11 w-fit items-center gap-4 border border-white/20 px-4 py-3 text-[9px] font-semibold uppercase tracking-[0.2em] transition hover:border-[#c8102e] hover:bg-[#c8102e]/10">{locale === "ru" ? "БОЛЬШЕ ОБО МНЕ" : "MORE ABOUT ME"}<ArrowRight className="h-4 w-4 text-[#ff526f]" /></Link>
           </div>
-
-          <div className="space-y-6 text-[#d2d2d2]">
-            <p className="max-w-2xl text-lg leading-8 text-[#d4d4d4]">
-              {locale === "ru"
-                ? "Я работаю на стыке цифрового искусства и продуктового дизайна. Мои проекты создаются через атмосферу, детали и ясную идею."
-                : "I work at the boundary between digital art and product design. My projects are shaped by atmosphere, detail, craft, and clear intent."}
-            </p>
-            <p className="max-w-2xl text-base leading-8 text-[#a1a1a1]">
-              {locale === "ru"
-                ? "От иллюстраций и визуальных систем до интерактивных веб-сайтов и премиальных лендингов — я создаю работу, которая ощущается личной, точной и живой."
-                : "From character studies and visual identities to interactive storefronts and premium landing pages, I build work that feels personal, precise, and alive."}
-            </p>
+          <div className="group relative min-h-[270px] overflow-hidden border-t border-white/10 bg-[#10090b] sm:min-h-[380px] lg:min-h-[460px] lg:border-l lg:border-t-0">
+            <Image src="/portfolio/art/raven-revenant-final.svg" alt="" fill sizes="(max-width: 1024px) 100vw, 62vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.035]" />
+            <div aria-hidden="true" className="absolute inset-0 bg-linear-to-r from-[#090909]/60 via-transparent to-black/20" />
+            <span className="absolute bottom-4 left-4 border border-white/25 bg-black/55 px-3 py-2 font-mono text-[8px] tracking-[0.18em] text-white/65 backdrop-blur sm:bottom-6 sm:left-6">NOCTIS / VISUAL STUDY 001</span>
+            <span aria-hidden="true" className="absolute right-5 top-5 h-8 w-8 border-r border-t border-[#ff526f]/70 sm:right-7 sm:top-7 sm:h-12 sm:w-12" />
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
-        <div className="mb-8 flex items-end justify-between gap-6 border-b border-white/10 pb-6">
-          <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{t.sectionExpertise}</p>
+      <section id="services" className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
+        <div className="mb-6 flex items-end justify-between gap-5 border-b border-white/10 pb-4">
+          <div><p className="text-[10px] font-semibold uppercase tracking-[0.34em] text-[#ff526f]">02 / {locale === "ru" ? "УСЛУГИ" : "SERVICES"}</p><h2 className="mt-3 text-3xl font-black uppercase tracking-[-0.06em] sm:text-5xl">{locale === "ru" ? "ЧТО Я СОЗДАЮ" : "WHAT I CREATE"}</h2></div>
+          <span className="hidden text-[8px] uppercase tracking-[0.28em] text-white/35 sm:block">{locale === "ru" ? "ИДЕЯ → РЕАЛЬНОСТЬ" : "IDEA → REALITY"}</span>
         </div>
-
-        <div className="grid gap-6 lg:grid-cols-3">
-          {expertise.map((group) => (
-            <div key={group.label} className="border border-white/10 bg-[#0a0a0a]/80 p-6">
-              <p className="border-b border-white/10 pb-4 text-[11px] font-bold uppercase tracking-[0.38em] text-[#ed1739]">{group.label}</p>
-              <ul className="mt-6 space-y-3 text-sm text-[#d8d8d8]">
-                {group.items.map((item) => (
-                  <li key={item} className="flex items-center gap-3 border-b border-white/5 pb-2 last:border-b-0 last:pb-0">
-                    <Circle className="h-2.5 w-2.5 fill-[#ff1a4d] text-[#ff1a4d]" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {services.map((service) => {
+            const Icon = service.icon;
+            return <Link key={service.index} href={withLocale("/contact", locale)} className="group relative flex min-h-[280px] flex-col justify-between overflow-hidden border border-white/10 bg-[#090909] p-4 transition-colors hover:border-[#c8102e]/70 sm:min-h-[330px] sm:p-5">
+              <Image src={service.image} alt="" fill sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw" className="object-cover opacity-45 transition duration-700 group-hover:scale-105 group-hover:opacity-65" />
+              <div aria-hidden="true" className="absolute inset-0 bg-linear-to-t from-[#050505] via-[#050505]/35 to-[#050505]/15" />
+              <div className="relative flex items-center justify-between"><span className="font-mono text-[10px] tracking-[0.2em] text-white/55">{service.index} / 04</span><Icon aria-hidden="true" className="h-5 w-5 text-[#ff526f]" /></div>
+              <div className="relative"><h3 className="text-xl font-black uppercase leading-none tracking-[-0.04em] text-white sm:text-2xl">{service.title[locale]}</h3><p className="mt-3 max-w-xs text-xs leading-6 text-white/65">{service.text[locale]}</p><span className="mt-5 flex items-center justify-between border-t border-white/20 pt-3 text-[8px] font-semibold uppercase tracking-[0.19em] text-white/55 transition group-hover:text-white"><span>{service.action[locale]}</span><ArrowUpRight className="h-4 w-4 text-[#ff526f] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></span></div>
+            </Link>;
+          })}
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
-        <div className="mb-8 border-b border-white/10 pb-6">
-          <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{locale === "ru" ? "УСЛУГИ" : "SERVICES"}</p>
+      <section id="work" className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
+        <div className="mb-6 flex items-end justify-between gap-5 border-b border-white/10 pb-4">
+          <div><p className="text-[10px] font-semibold uppercase tracking-[0.34em] text-[#ff526f]">03 / {locale === "ru" ? "ИЗБРАННЫЕ РАБОТЫ" : "SELECTED WORK"}</p><h2 className="mt-3 text-3xl font-black uppercase tracking-[-0.06em] sm:text-5xl">{locale === "ru" ? "ПРОЕКТЫ" : "PROJECTS"}</h2></div>
+          <Link href={withLocale("/work", locale)} className="hidden min-h-10 items-center gap-2 border border-white/15 px-4 py-2 text-[9px] font-semibold uppercase tracking-[0.2em] text-white/65 transition hover:border-[#c8102e] hover:text-white sm:inline-flex">{locale === "ru" ? "ВСЕ ПРОЕКТЫ" : "ALL PROJECTS"}<ArrowUpRight className="h-4 w-4 text-[#ff526f]" /></Link>
         </div>
-
-        <div className="grid gap-6 lg:grid-cols-3">
-          {services.map((service) => (
-            <div key={service.index} className="border border-white/10 bg-[#0a0a0a]/80 p-6">
-              <div className="mb-6 flex items-center justify-between">
-                <span className="text-[11px] uppercase tracking-[0.35em] text-[#a1a1a1]">{service.index}</span>
-                <span className="ml-4 h-px flex-1 bg-white/10" />
-              </div>
-              <h3 className="text-2xl font-medium uppercase tracking-[-0.04em] text-[#f5f5f5]">{service.title}</h3>
-              <ul className="mt-6 space-y-3 text-sm text-[#d4d4d4]">
-                {service.list.map((item) => (
-                  <li key={item} className="flex items-start gap-3 border-t border-white/5 pt-3 first:border-t-0 first:pt-0">
-                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#ff1a4d]" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        <ProjectFilter projects={projects} />
+        <Link href={withLocale("/work", locale)} className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-3 border border-white/15 text-[9px] font-semibold uppercase tracking-[0.22em] text-white/65 transition hover:border-[#c8102e] hover:text-white sm:hidden">{locale === "ru" ? "СМОТРЕТЬ ВСЕ ПРОЕКТЫ" : "VIEW ALL PROJECTS"}<ArrowUpRight className="h-4 w-4 text-[#ff526f]" /></Link>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
-          <div className="relative overflow-hidden border border-white/10 bg-[linear-gradient(135deg,rgba(200,16,46,0.12),rgba(255,255,255,0.01))] p-8 md:p-12">
-            <span aria-hidden="true" className="absolute -right-8 -top-16 select-none text-[15rem] font-black leading-none text-white/[0.025]">N</span>
-          <p className="text-[11px] uppercase tracking-[0.42em] text-[#a1a1a1]">{t.philosophy}</p>
-          <h3 className="mt-8 max-w-4xl text-4xl font-medium uppercase tracking-[-0.06em] text-[#f5f5f5] sm:text-5xl lg:text-6xl">
-            {t.philosophyText.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
-          </h3>
+      <section id="process" className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
+        <div className="mb-7 flex items-end justify-between gap-5 border-b border-white/10 pb-4"><div><p className="text-[10px] font-semibold uppercase tracking-[0.34em] text-[#ff526f]">04 / {locale === "ru" ? "ПРОЦЕСС" : "WORK PROCESS"}</p><h2 className="mt-3 text-3xl font-black uppercase tracking-[-0.06em] sm:text-5xl">{locale === "ru" ? "ОТ ИДЕИ ДО ЗАПУСКА" : "FROM IDEA TO RELEASE"}</h2></div><span className="hidden text-[8px] uppercase tracking-[0.28em] text-white/35 sm:block">{locale === "ru" ? "ПОНЯТНО. СОБРАННО. ВОВРЕМЯ." : "CLEAR. CONSIDERED. ON TIME."}</span></div>
+        <ol className="grid border-y border-white/10 sm:grid-cols-2 lg:grid-cols-4">
+          {processSteps.map((step, index) => { const Icon = step.icon; return <li key={step.index} className={`group relative border-white/10 py-5 sm:px-5 sm:py-6 lg:px-6 ${index > 0 ? "border-t sm:border-t-0" : ""} ${index % 2 === 1 ? "sm:border-l" : ""} ${index > 1 ? "lg:border-l" : ""}`}><div className="flex items-center justify-between"><span className="font-mono text-sm text-[#ff526f]">{step.index}</span><Icon aria-hidden="true" className="h-5 w-5 text-white/45 transition-colors group-hover:text-[#ff526f]" /></div><h3 className="mt-5 text-sm font-bold uppercase tracking-[0.12em]">{step.title[locale]}</h3><p className="mt-2 max-w-xs text-xs leading-6 text-white/50">{step.text[locale]}</p><span aria-hidden="true" className="absolute bottom-0 left-0 h-px w-0 bg-[#c8102e] transition-all duration-500 group-hover:w-full" /></li>; })}
+        </ol>
+      </section>
+
+      <section id="expertise" className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-20">
+        <div className="mb-6 flex items-end justify-between gap-5 border-b border-white/10 pb-4"><div><p className="text-[10px] font-semibold uppercase tracking-[0.34em] text-[#ff526f]">05 / {locale === "ru" ? "НАВЫКИ И ИНСТРУМЕНТЫ" : "SKILLS & TOOLS"}</p><h2 className="mt-3 text-3xl font-black uppercase tracking-[-0.06em] sm:text-5xl">{locale === "ru" ? "АРТ × ТЕХНОЛОГИИ" : "ART × TECHNOLOGY"}</h2></div><span className="hidden text-[8px] uppercase tracking-[0.28em] text-white/35 sm:block">{locale === "ru" ? "СОЗДАЮ НА СТЫКЕ ДИСЦИПЛИН" : "BUILT BETWEEN DISCIPLINES"}</span></div>
+        <div className="grid gap-4 lg:grid-cols-[1.25fr_0.75fr]">
+          <div className="grid grid-cols-2 border-l border-t border-white/10 sm:grid-cols-4">{skills.map((skill, index) => <div key={skill} className="group flex min-h-24 flex-col justify-between border-b border-r border-white/10 bg-[#080808] p-3 transition-colors hover:bg-[#c8102e]/10 sm:min-h-28 sm:p-4"><span className="font-mono text-[8px] text-white/35">0{index + 1}</span><span className="text-[9px] font-semibold uppercase tracking-[0.1em] text-white/75 transition-colors group-hover:text-white sm:text-[10px]">{skill}</span></div>)}</div>
+          <div className="relative flex min-h-52 flex-col justify-end overflow-hidden border border-[#c8102e]/25 bg-[radial-gradient(ellipse_at_75%_20%,rgba(200,16,46,0.28),transparent_50%),linear-gradient(135deg,#10090b,#050505)] p-5 sm:min-h-60 sm:p-7"><span aria-hidden="true" className="absolute -right-6 -top-16 font-serif text-[17rem] italic leading-none text-white/[0.035]">N</span><p className="relative text-[8px] font-semibold uppercase tracking-[0.28em] text-[#ff526f]">{locale === "ru" ? "РАБОЧИЙ ПРИНЦИП" : "WORKING PRINCIPLE"}</p><p className="relative mt-3 max-w-sm text-xl font-semibold uppercase leading-[1.05] tracking-[-0.04em] sm:text-2xl">{locale === "ru" ? "ЧЕЛОВЕЧЕСКИЙ МАСШТАБ. ЦИФРОВАЯ ТОЧНОСТЬ." : "HUMAN SCALE. DIGITAL PRECISION."}</p><span className="relative mt-5 inline-flex items-center gap-2 font-mono text-[8px] tracking-[0.18em] text-white/45"><span className="h-1.5 w-1.5 rounded-full bg-[#ff1a4d] shadow-[0_0_12px_#ff1a4d]" />NOCTIS RAVEN / 2026</span></div>
         </div>
       </section>
 

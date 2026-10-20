@@ -6,15 +6,17 @@ import Footer from "@/components/Footer";
 import SiteHeader from "@/components/SiteHeader";
 import { CaseReveal, CaseVisual } from "@/components/CaseStudyMotion";
 import { resolveLocale, withLocale } from "@/lib/i18n";
-import { getProjectBySlug, portfolioProjects } from "@/lib/site-data";
+import { getPublicPortfolioProjects, getPublishedProjectBySlug } from "@/lib/public-portfolio";
 
-export function generateStaticParams() {
-  return portfolioProjects.map((project) => ({ slug: project.slug }));
+export const revalidate = 0;
+
+export async function generateStaticParams() {
+  return (await getPublicPortfolioProjects()).map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getPublishedProjectBySlug(slug);
   if (!project) return { title: "Project not found" };
 
   return {
@@ -36,7 +38,8 @@ export default async function ProjectDetailPage({
   searchParams?: Promise<{ lang?: string }>;
 }) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const projects = await getPublicPortfolioProjects();
+  const project = await getPublishedProjectBySlug(slug);
   const locale = resolveLocale(searchParams ? (await searchParams).lang : undefined);
 
   if (!project) notFound();
@@ -45,7 +48,7 @@ export default async function ProjectDetailPage({
   const copy = project.copy[locale];
   const approach = project.approach[locale];
   const design = project.design[locale];
-  const nextProject = portfolioProjects.find((item) => item.slug !== project.slug) ?? portfolioProjects[0];
+  const nextProject = projects.find((item) => item.slug !== project.slug) ?? project;
   const labels = ru
     ? {
         back: "Назад к проектам",
@@ -98,7 +101,7 @@ export default async function ProjectDetailPage({
 
         <section className="pb-10 pt-8 sm:pb-12 sm:pt-12 lg:pb-16">
           <CaseReveal>
-            <p className="text-[9px] font-semibold uppercase tracking-[0.36em] text-[#ff526f] sm:text-[10px] sm:tracking-[0.42em]">{labels.project} / {project.category} / {String(portfolioProjects.findIndex((item) => item.slug === project.slug) + 1).padStart(2, "0")}</p>
+            <p className="text-[9px] font-semibold uppercase tracking-[0.36em] text-[#ff526f] sm:text-[10px] sm:tracking-[0.42em]">{labels.project} / {project.category} / {String(projects.findIndex((item) => item.slug === project.slug) + 1).padStart(2, "0")}</p>
             <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_0.55fr] lg:items-end lg:gap-12">
               <h1 className="max-w-6xl text-[clamp(2.7rem,8vw,7.5rem)] font-black uppercase leading-[0.84] tracking-[-0.075em] text-white">{project.title}</h1>
               <p className="max-w-xl border-l-2 border-[#c8102e] pl-4 text-sm leading-6 text-white/65 sm:text-base sm:leading-7 lg:pb-1">{copy.summary}</p>

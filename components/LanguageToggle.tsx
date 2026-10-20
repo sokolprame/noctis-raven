@@ -20,7 +20,7 @@ export default function LanguageToggle() {
     <button
       type="button"
       onClick={toggleLanguage}
-      aria-label="Toggle locale"
+      aria-label={locale === "ru" ? "Переключить язык" : "Switch language"}
       className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-[#a1a1a1] transition hover:text-[#ff1a4d]"
     >
       <span className={locale === "ru" ? "text-[#f5f5f5]" : "text-[#a1a1a1]"}>RU</span>

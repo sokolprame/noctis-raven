@@ -111,6 +111,11 @@ button {
   cursor: pointer;
 }
 
+:where(a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid var(--bright-red);
+  outline-offset: 3px;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -139,8 +144,8 @@ img {
 }
 
 .cyber-glitch-layer-cyan {
-  filter: sepia(1) saturate(8) hue-rotate(135deg) contrast(1.2);
-  opacity: 0.08;
+  filter: sepia(1) saturate(7) hue-rotate(300deg) contrast(1.25);
+  opacity: 0.1;
   clip-path: inset(59% 0 27% 0);
   transform: translateX(2px);
   animation: noctis-glitch-cyan 4.8s steps(1, end) infinite;
@@ -174,20 +179,57 @@ img {
   clip-path: polygon(13% 0, 100% 0, 100% 83%, 83% 100%, 0 100%, 0 16%);
 }
 
+.hero-orbit {
+  z-index: -1;
+  border: 1px solid rgba(255, 82, 111, 0.2);
+  border-radius: 48%;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  animation: noctis-orbit-turn 34s linear infinite;
+}
+
+.hero-orbit::after {
+  position: absolute;
+  top: 4%;
+  left: 18%;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #ff526f;
+  box-shadow: 0 0 16px 3px rgba(255, 26, 77, 0.6);
+  content: "";
+}
+
+.hero-orbit-a {
+  transform: rotate(-29deg) scaleY(0.64);
+}
+
+.hero-orbit-b {
+  border-color: rgba(255, 255, 255, 0.11);
+  transform: rotate(37deg) scaleY(0.7);
+  animation-direction: reverse;
+  animation-duration: 46s;
+}
+
+@keyframes noctis-orbit-turn {
+  from { rotate: 0deg; }
+  to { rotate: 360deg; }
+}
+
 .cyber-glitch-overlay::before {
-  background: linear-gradient(to bottom, transparent 0 18%, rgba(255, 20, 72, 0.72) 18.4% 19%, transparent 19.4% 61%, rgba(0, 229, 255, 0.65) 61.4% 62%, transparent 62.4%);
+  background: linear-gradient(to bottom, transparent 0 18%, rgba(255, 20, 72, 0.82) 18.4% 19%, transparent 19.4% 61%, rgba(255, 255, 255, 0.42) 61.4% 62%, transparent 62.4%);
   animation: noctis-glitch-bars-red 4.8s steps(1, end) infinite;
 }
 
 .cyber-glitch-overlay::after {
-  background: linear-gradient(to bottom, transparent 0 34%, rgba(255, 255, 255, 0.24) 34.5% 35%, transparent 35.5% 73%, rgba(255, 20, 72, 0.45) 73.5% 74%, transparent 74.5%);
+  background: linear-gradient(to bottom, transparent 0 34%, rgba(255, 255, 255, 0.3) 34.5% 35%, transparent 35.5% 73%, rgba(255, 20, 72, 0.62) 73.5% 74%, transparent 74.5%);
   animation: noctis-glitch-bars-cyan 4.8s steps(1, end) infinite;
 }
 
 @keyframes noctis-image-glitch {
   0%, 49%, 100% { clip-path: inset(0); filter: none; transform: translate3d(0, 0, 0); }
-  50% { clip-path: inset(20% 0 66% 0); filter: saturate(1.4) contrast(1.15); transform: translate3d(-3px, 1px, 0) skewX(-0.8deg); }
-  52% { clip-path: inset(59% 0 27% 0); filter: hue-rotate(-8deg) contrast(1.18); transform: translate3d(4px, -1px, 0) skewX(0.8deg); }
+  50% { clip-path: inset(20% 0 66% 0); filter: saturate(1.8) contrast(1.3); transform: translate3d(-8px, 2px, 0) skewX(-1.5deg); }
+  52% { clip-path: inset(59% 0 27% 0); filter: sepia(0.24) saturate(1.6) contrast(1.25); transform: translate3d(7px, -2px, 0) skewX(1.5deg); }
   54% { clip-path: inset(0); filter: none; transform: translate3d(-1px, 0, 0); }
   56% { clip-path: inset(41% 0 49% 0); filter: saturate(1.4); transform: translate3d(2px, 0, 0); }
   58% { clip-path: inset(0); filter: none; transform: translate3d(0, 0, 0); }
@@ -204,8 +246,8 @@ img {
 
 @keyframes noctis-glitch-cyan {
   0%, 50%, 59%, 100% { opacity: 0.08; clip-path: inset(59% 0 27% 0); transform: translateX(2px); }
-  50.8% { opacity: 0.68; clip-path: inset(28% 0 57% 0); transform: translateX(7px); }
-  52.8% { opacity: 0.5; clip-path: inset(67% 0 19% 0); transform: translateX(-5px); }
+  50.8% { opacity: 0.72; clip-path: inset(28% 0 57% 0); transform: translateX(9px); }
+  52.8% { opacity: 0.58; clip-path: inset(67% 0 19% 0); transform: translateX(-7px); }
   54.8% { opacity: 0.38; clip-path: inset(48% 0 39% 0); transform: translateX(4px); }
   56.8% { opacity: 0; clip-path: inset(0); transform: translateX(0); }
 }
@@ -259,6 +301,10 @@ img {
   .ambient-backdrop::after {
     animation-duration: 50s !important;
     animation-iteration-count: 1 !important;
+  }
+
+  .hero-orbit {
+    animation: none !important;
   }
 
   .case-reveal {

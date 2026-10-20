@@ -40,6 +40,10 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
     };
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) {
+      revealImmediately();
+      return;
+    }
 
     if (!canvas || !context) {
       revealImmediately();

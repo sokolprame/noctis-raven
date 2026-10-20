@@ -5,7 +5,9 @@ import Footer from "@/components/Footer";
 import PortfolioCaseCard from "@/components/PortfolioCaseCard";
 import SiteHeader from "@/components/SiteHeader";
 import { resolveLocale, withLocale } from "@/lib/i18n";
-import { portfolioProjects } from "@/lib/site-data";
+import { getPublicPortfolioProjects } from "@/lib/public-portfolio";
+
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Избранные работы",
@@ -15,6 +17,7 @@ export const metadata: Metadata = {
 export default async function WorkPage({ searchParams }: { searchParams?: Promise<{ lang?: string }> }) {
   const params = searchParams ? await searchParams : {};
   const locale = resolveLocale(params.lang);
+  const projects = await getPublicPortfolioProjects();
   const isRu = locale === "ru";
 
   return (
@@ -32,16 +35,16 @@ export default async function WorkPage({ searchParams }: { searchParams?: Promis
             <div className="flex items-end justify-between gap-5 lg:max-w-sm lg:pb-1">
               <p className="max-w-sm text-sm leading-6 text-white/55 sm:text-base sm:leading-7">
                 {isRu
-                  ? "Коммерческий каталог и памятный сайт — два разных сценария, собранных вокруг реальных задач и людей."
-                  : "A product catalogue and a memorial site: two different experiences shaped around real needs and people."}
+                  ? "Каждый кейс — отдельная история, собранная вокруг реальных задач и людей."
+                  : "Every case is a distinct story shaped around real needs and people."}
               </p>
-              <span aria-hidden="true" className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">02 / 02</span>
+              <span aria-hidden="true" className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">{String(projects.length).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}</span>
             </div>
           </div>
         </header>
 
         <section aria-label={isRu ? "Избранные проекты" : "Selected projects"} className="grid gap-4 sm:gap-5 lg:grid-cols-2 lg:gap-6">
-          {portfolioProjects.map((project, index) => (
+          {projects.map((project, index) => (
             <PortfolioCaseCard key={project.slug} project={project} locale={locale} index={index} />
           ))}
         </section>

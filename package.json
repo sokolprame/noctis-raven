@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --webpack",
     "seed": "ts-node ./scripts/seed_portfolio.ts",
+    "seed:public": "ts-node ./scripts/seed_public_portfolio.ts",
     "seed:legacy": "ts-node ./scripts/seed_projects.ts",
     "build": "next build --webpack",
     "start": "next start",
