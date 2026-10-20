@@ -71,7 +71,7 @@ export function PublicPortfolioEditor({ initialProjects }: { initialProjects: Ma
   const input = "min-h-11 w-full border border-white/12 bg-[#080808] px-3 py-2 text-sm text-white placeholder:text-white/30 focus-visible:border-[#ff1a4d]";
   const area = `${input} min-h-24`;
   return <div className="space-y-8">
-    {feedback && <p role="status" className="border border-[#ff1a4d]/30 bg-[#c8102e]/10 px-4 py-3 text-sm text-white/80">{feedback}</p>}
+    <p role="status" className={feedback ? "border border-[#ff1a4d]/30 bg-[#c8102e]/10 px-4 py-3 text-sm text-white/80" : "sr-only"}>{feedback}</p>
     <form onSubmit={save} className="grid gap-4 border border-white/10 bg-[#080808] p-4 sm:grid-cols-2 sm:p-6">
       <h2 className="text-xl font-semibold uppercase tracking-wide sm:col-span-2">{form.id ? "Редактировать кейс" : "Новый кейс"}</h2>
       <Field label="Название" className={input} value={form.title} onChange={(v) => set("title", v)} required />

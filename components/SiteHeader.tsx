@@ -23,6 +23,7 @@ export default function SiteHeader() {
     { label: locale === "ru" ? "Обо мне" : "ABOUT", href: withLocale("/about", locale) },
     { label: locale === "ru" ? "Контакты" : "CONTACT", href: withLocale("/contact", locale) },
   ];
+  const navLabel = locale === "ru" ? "Основная навигация" : "Main navigation";
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#050505]/80 backdrop-blur-xl">
@@ -35,7 +36,7 @@ export default function SiteHeader() {
           <BrandMark />
         </Link>
 
-        <nav className="hidden items-center gap-8 text-[11px] uppercase tracking-[0.28em] text-[#d5d5d5] md:flex">
+        <nav aria-label={navLabel} lang={locale} className="hidden items-center gap-8 text-[11px] uppercase tracking-[0.28em] text-[#d5d5d5] md:flex">
           {navItems.map((item) => (
             <Link key={item.href} href={item.href} className="transition hover:text-[#ff1a4d]">
               {item.label}
@@ -67,6 +68,8 @@ export default function SiteHeader() {
       <AnimatePresence>
         {menuOpen && (
           <motion.nav
+            aria-label={navLabel}
+            lang={locale}
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}

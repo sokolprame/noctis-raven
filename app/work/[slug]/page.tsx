@@ -92,7 +92,7 @@ export default async function ProjectDetailPage({
       };
 
   return (
-    <main className="min-h-screen overflow-x-clip bg-[#050505] text-[#f5f5f5]">
+    <main id="main-content" lang={locale} className="min-h-screen overflow-x-clip bg-[#050505] text-[#f5f5f5]">
       <SiteHeader />
       <div className="mx-auto max-w-7xl px-5 pb-14 pt-6 sm:px-8 sm:pb-20 sm:pt-8 lg:px-10">
         <Link href={withLocale("/work", locale)} className="inline-flex min-h-10 items-center gap-3 text-[9px] font-semibold uppercase tracking-[0.28em] text-white/55 transition hover:text-[#ff526f] sm:text-[10px] sm:tracking-[0.3em]">

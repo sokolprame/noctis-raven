@@ -21,7 +21,7 @@ export default async function WorkPage({ searchParams }: { searchParams?: Promis
   const isRu = locale === "ru";
 
   return (
-    <main className="min-h-screen bg-[#050505] text-[#f5f5f5]">
+      <main id="main-content" lang={locale} className="min-h-screen bg-[#050505] text-[#f5f5f5]">
       <SiteHeader />
       <div className="mx-auto max-w-7xl px-5 pb-16 pt-8 sm:px-8 sm:pb-20 sm:pt-12 lg:px-10">
         <header className="mb-8 border-b border-white/10 pb-7 sm:mb-12 sm:pb-10">

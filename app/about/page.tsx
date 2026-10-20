@@ -20,7 +20,7 @@ export default async function AboutPage({ searchParams }: { searchParams?: Promi
     : ["Idea and context", "Structure and direction", "Visual system", "Build and finish"];
 
   return (
-    <main className="min-h-screen bg-[#050505] text-[#f5f5f5]">
+    <main id="main-content" lang={locale} className="min-h-screen bg-[#050505] text-[#f5f5f5]">
       <SiteHeader />
       <div className="mx-auto max-w-7xl px-5 pb-14 pt-8 sm:px-8 sm:pb-20 sm:pt-12 lg:px-10">
         <section className="grid items-center gap-5 border-b border-white/10 pb-8 sm:gap-8 sm:pb-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:pb-16">

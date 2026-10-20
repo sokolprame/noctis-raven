@@ -23,7 +23,7 @@ export default async function ContactPage({ searchParams }: { searchParams?: Pro
   const isRu = locale === "ru";
 
   return (
-    <main className="min-h-screen bg-[#050505] text-[#f5f5f5]">
+    <main id="main-content" lang={locale} className="min-h-screen bg-[#050505] text-[#f5f5f5]">
       <SiteHeader />
       <div className="mx-auto max-w-6xl px-5 pb-12 pt-7 sm:px-8 sm:pb-16 sm:pt-10 lg:px-10">
         <p className="mb-5 text-[9px] font-medium uppercase tracking-[0.34em] text-white/45 sm:mb-7 sm:text-[10px]">

@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#050505] text-[#f8f5f5]">
+    <main id="main-content" lang="ru" className="min-h-screen bg-[#050505] text-[#f8f5f5]">
         <div className="mx-auto flex min-h-screen max-w-xl items-center px-5 py-10 sm:px-8 sm:py-16">
         <div className="w-full border border-white/10 bg-[#0b0a0f]/95 p-5 shadow-[0_40px_120px_rgba(0,0,0,0.45)] sm:p-10">
           <h1 className="text-3xl font-semibold uppercase tracking-[0.12em] text-[#f8f5f5] sm:text-4xl sm:tracking-[0.24em]">Вход в админку</h1>

@@ -8,7 +8,7 @@ export default async function AdminPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#050505] text-[#f8f5f5]">
+    <main id="main-content" lang="ru" className="min-h-screen bg-[#050505] text-[#f8f5f5]">
       <div className="mx-auto max-w-5xl px-5 py-10 sm:px-8 sm:py-16">
       <div className="rounded-[28px] border border-white/10 bg-[#0b0a0f]/95 p-5 shadow-[0_40px_120px_rgba(0,0,0,0.45)] sm:rounded-[36px] sm:p-10">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">

@@ -100,7 +100,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Promis
       };
 
   return (
-    <main className="relative min-h-screen overflow-x-clip bg-[#050505] text-[#f5f5f5]">
+    <main id="main-content" lang={locale} className="relative min-h-screen overflow-x-clip bg-[#050505] text-[#f5f5f5]">
       <CustomCursor />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_16%_8%,rgba(200,16,46,0.18),transparent_31%),radial-gradient(circle_at_bottom_right,rgba(255,26,77,0.06),transparent_25%)]" />
 
