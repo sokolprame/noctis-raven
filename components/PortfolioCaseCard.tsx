@@ -3,10 +3,9 @@ import { ArrowUpRight } from "lucide-react";
 import { withLocale, type Locale } from "@/lib/i18n";
 import type { PortfolioItem } from "@/lib/site-data";
 
-const collectionLabel: Record<PortfolioItem["collection"], Record<Locale, string>> = {
-  Commerce: { ru: "Цифровой каталог", en: "Digital commerce" },
-  Memorial: { ru: "Памятный сайт", en: "Memorial site" },
-};
+const collectionLabel = (collection: string, locale: Locale) => collection === "Commerce"
+  ? locale === "ru" ? "Цифровой каталог" : "Digital commerce"
+  : collection === "Memorial" ? locale === "ru" ? "Памятный сайт" : collection : collection;
 
 export default function PortfolioCaseCard({
   project,
@@ -47,7 +46,7 @@ export default function PortfolioCaseCard({
               {ru ? "КЕЙС" : "CASE"} / {String(index + 1).padStart(2, "0")}
             </span>
             <span className="max-w-[58%] text-right text-[8px] font-medium uppercase tracking-[0.2em] text-white/75 sm:text-[9px] sm:tracking-[0.24em]">
-              {collectionLabel[project.collection][locale]}
+              {collectionLabel(project.collection, locale)}
             </span>
           </div>
 

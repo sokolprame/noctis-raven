@@ -5,23 +5,24 @@ import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import PortfolioCaseCard from "@/components/PortfolioCaseCard";
 import { resolveLocale, type Locale } from "@/lib/i18n";
-import { portfolioProjects, projectFilters } from "@/lib/site-data";
+import type { PortfolioItem } from "@/lib/site-data";
 
-const filterLabels: Record<(typeof projectFilters)[number], Record<Locale, string>> = {
-  All: { ru: "Все проекты", en: "All work" },
-  Commerce: { ru: "Коммерция", en: "Commerce" },
-  Memorial: { ru: "Памятные проекты", en: "Memorial" },
-};
+const labelFor = (filter: string, locale: Locale) => filter === "All"
+  ? locale === "ru" ? "Все проекты" : "All work"
+  : filter === "Commerce" ? locale === "ru" ? "Коммерция" : filter
+  : filter === "Memorial" ? locale === "ru" ? "Памятные проекты" : filter
+  : filter;
 
-export default function ProjectFilter() {
+export default function ProjectFilter({ projects }: { projects: PortfolioItem[] }) {
   const searchParams = useSearchParams();
   const locale = resolveLocale(searchParams.get("lang"));
-  const [activeFilter, setActiveFilter] = useState<(typeof projectFilters)[number]>("All");
+  const [activeFilter, setActiveFilter] = useState("All");
+  const projectFilters = useMemo(() => ["All", ...new Set(projects.map((project) => project.collection))], [projects]);
 
   const filteredProjects = useMemo(() => {
-    if (activeFilter === "All") return portfolioProjects;
-    return portfolioProjects.filter((project) => project.collection === activeFilter);
-  }, [activeFilter]);
+    if (activeFilter === "All") return projects;
+    return projects.filter((project) => project.collection === activeFilter);
+  }, [activeFilter, projects]);
 
   return (
     <div className="space-y-6 sm:space-y-8">
@@ -38,7 +39,7 @@ export default function ProjectFilter() {
                 : "border-transparent text-[#aaa] hover:border-white/15 hover:text-white"
             }`}
           >
-            {filterLabels[filter][locale]}
+            {labelFor(filter, locale)}
           </button>
         ))}
       </div>

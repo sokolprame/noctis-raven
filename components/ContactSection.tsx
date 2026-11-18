@@ -89,7 +89,7 @@ export default function ContactSection({ locale }: { locale: "ru" | "en" }) {
     setStatus("success");
   }
 
-  const fieldClass = "min-h-12 w-full border border-white/10 bg-[#090909] px-3.5 py-3 text-[13px] text-white outline-none transition placeholder:text-white/30 focus:border-[#c8102e] focus:ring-1 focus:ring-[#c8102e]/25 sm:px-4 sm:py-3.5 sm:text-sm";
+  const fieldClass = "min-h-12 w-full border border-white/10 bg-[#090909] px-3.5 py-3 text-[13px] text-white outline-none transition placeholder:text-white/40 focus:border-[#c8102e] focus:ring-1 focus:ring-[#c8102e]/25 sm:px-4 sm:py-3.5 sm:text-sm";
   const labelClass = "grid gap-2 text-[9px] font-medium uppercase tracking-[0.18em] text-white/60 sm:gap-2.5 sm:text-[10px] sm:tracking-[0.2em]";
 
   return (
@@ -132,12 +132,10 @@ export default function ContactSection({ locale }: { locale: "ru" | "en" }) {
         <button type="submit" disabled={status === "loading"} className="mt-1 inline-flex min-h-12 w-full items-center justify-center gap-2 bg-[#c8102e] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#ed1739] disabled:cursor-wait disabled:opacity-60 sm:py-4 sm:text-[11px]">
           {status === "loading" ? t.sending : t.submit}<ArrowRight className="h-4 w-4" />
         </button>
-        {feedback ? (
-          <p className="text-xs leading-6 text-[#d8a0ad]" aria-live="polite">
-            {mailtoHref ? <>{feedback} <a className="underline underline-offset-4 hover:text-white" href={mailtoHref}>{t.mailAction}</a></> : feedback}
-          </p>
-        ) : null}
-        <p className="text-[10px] leading-5 text-white/35">
+        <p role="status" className={feedback ? "text-xs leading-6 text-[#d8a0ad]" : "sr-only"}>
+          {mailtoHref ? <>{feedback} <a className="underline underline-offset-4 hover:text-white" href={mailtoHref}>{t.mailAction}</a></> : feedback}
+        </p>
+        <p className="text-[10px] leading-5 text-white/50">
           {ru ? "Данные из формы используются, чтобы ответить на ваш запрос." : "Form details are used to reply to your request."}{" "}
           <Link className="underline underline-offset-4 transition hover:text-white/70" href={withLocale("/privacy", locale)}>{t.privacy}</Link>
         </p>

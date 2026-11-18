@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Footer from "@/components/Footer";
 import HeroPortrait from "@/components/HeroPortrait";
+import ScrollReveal from "@/components/ScrollEffects";
 import SiteHeader from "@/components/SiteHeader";
 import { resolveLocale, withLocale } from "@/lib/i18n";
 
@@ -20,10 +21,10 @@ export default async function AboutPage({ searchParams }: { searchParams?: Promi
     : ["Idea and context", "Structure and direction", "Visual system", "Build and finish"];
 
   return (
-    <main className="min-h-screen bg-[#050505] text-[#f5f5f5]">
+    <main id="main-content" lang={locale} className="min-h-screen bg-[#050505] text-[#f5f5f5]">
       <SiteHeader />
       <div className="mx-auto max-w-7xl px-5 pb-14 pt-8 sm:px-8 sm:pb-20 sm:pt-12 lg:px-10">
-        <section className="grid items-center gap-5 border-b border-white/10 pb-8 sm:gap-8 sm:pb-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:pb-16">
+        <ScrollReveal><section className="grid items-center gap-5 border-b border-white/10 pb-8 sm:gap-8 sm:pb-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:pb-16">
           <div>
             <p className="text-[9px] font-semibold uppercase tracking-[0.36em] text-[#ff526f] sm:text-[10px] sm:tracking-[0.42em]">{isRu ? "ОБО МНЕ / NOCTIS RAVEN" : "ABOUT / NOCTIS RAVEN"}</p>
             <h1 className="mt-5 text-[clamp(2.7rem,7.4vw,6.5rem)] font-black uppercase leading-[0.84] tracking-[-0.075em] text-white">
@@ -49,9 +50,9 @@ export default async function AboutPage({ searchParams }: { searchParams?: Promi
           <div className="mx-auto w-full max-w-[560px] lg:ml-auto">
             <HeroPortrait locale={locale} />
           </div>
-        </section>
+        </section></ScrollReveal>
 
-        <section className="grid gap-px border-b border-white/10 bg-white/10 sm:grid-cols-3" aria-label={isRu ? "Направления работы" : "Areas of work"}>
+        <ScrollReveal><section className="grid gap-px border-b border-white/10 bg-white/10 sm:grid-cols-3" aria-label={isRu ? "Направления работы" : "Areas of work"}>
           {[
             { index: "01", title: isRu ? "ДИЗАЙН" : "DESIGN", detail: isRu ? "UI/UX · визуальные системы · направление" : "UI/UX · visual systems · direction" },
             { index: "02", title: isRu ? "РАЗРАБОТКА" : "DEVELOPMENT", detail: isRu ? "Интерактивные сайты · frontend · продукт" : "Interactive sites · frontend · product" },
@@ -66,9 +67,9 @@ export default async function AboutPage({ searchParams }: { searchParams?: Promi
               <p className="mt-2 text-xs leading-6 text-white/50 sm:text-sm">{item.detail}</p>
             </article>
           ))}
-        </section>
+        </section></ScrollReveal>
 
-        <section className="grid gap-6 border-b border-white/10 py-10 sm:gap-10 sm:py-14 lg:grid-cols-[0.7fr_1.3fr] lg:py-16">
+        <ScrollReveal><section className="grid gap-6 border-b border-white/10 py-10 sm:gap-10 sm:py-14 lg:grid-cols-[0.7fr_1.3fr] lg:py-16">
           <div>
             <p className="text-[9px] font-semibold uppercase tracking-[0.36em] text-[#ff526f]">{isRu ? "ПОДХОД" : "APPROACH"}</p>
             <h2 className="mt-4 max-w-md text-3xl font-semibold uppercase leading-[0.9] tracking-[-0.06em] sm:text-4xl">{isRu ? "ОТ ПЕРВОЙ ИДЕИ ДО ПОСЛЕДНЕГО ПИКСЕЛЯ." : "FROM THE FIRST IDEA TO THE LAST PIXEL."}</h2>
@@ -82,14 +83,14 @@ export default async function AboutPage({ searchParams }: { searchParams?: Promi
               </li>
             ))}
           </ol>
-        </section>
+        </section></ScrollReveal>
 
-        <section className="flex flex-col gap-4 pt-8 sm:flex-row sm:items-center sm:justify-between sm:pt-10">
-          <p className="text-[9px] font-semibold uppercase tracking-[0.32em] text-white/45">{isRu ? "ОТКРЫТ К СОТРУДНИЧЕСТВУ" : "AVAILABLE FOR PROJECTS"}</p>
+        <ScrollReveal><section className="flex flex-col gap-4 pt-8 sm:flex-row sm:items-center sm:justify-between sm:pt-10">
+          <p className="text-[9px] font-semibold uppercase tracking-[0.32em] text-white/50">{isRu ? "ОТКРЫТ К СОТРУДНИЧЕСТВУ" : "AVAILABLE FOR PROJECTS"}</p>
           <Link href={withLocale("/work", locale)} className="inline-flex min-h-11 items-center gap-3 border border-white/20 px-4 py-3 text-[9px] font-semibold uppercase tracking-[0.22em] transition hover:border-[#c8102e] hover:text-[#ff526f]">
             {isRu ? "СМОТРЕТЬ РАБОТЫ" : "VIEW WORK"}<ArrowRight className="h-4 w-4" />
           </Link>
-        </section>
+        </section></ScrollReveal>
       </div>
       <Footer />
     </main>

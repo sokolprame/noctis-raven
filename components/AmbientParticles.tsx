@@ -32,6 +32,8 @@ export default function AmbientParticles() {
     let dpr = 1;
     let frameId = 0;
     let lastFrame = 0;
+    const animationStartedAt = performance.now();
+    let animationFinished = false;
     let particles: Particle[] = [];
 
     const createParticle = (randomPosition = false): Particle => {
@@ -71,6 +73,13 @@ export default function AmbientParticles() {
     };
 
     const render = (timestamp: number) => {
+      if (timestamp - animationStartedAt >= 4800) {
+        context.clearRect(0, 0, width, height);
+        animationFinished = true;
+        frameId = 0;
+        return;
+      }
+
       if (document.hidden) {
         frameId = 0;
         return;
@@ -123,7 +132,7 @@ export default function AmbientParticles() {
       }
 
       lastFrame = 0;
-      if (!frameId) frameId = window.requestAnimationFrame(render);
+      if (!frameId && !animationFinished) frameId = window.requestAnimationFrame(render);
     };
 
     const handleMotionPreferenceChange = () => {
@@ -131,7 +140,7 @@ export default function AmbientParticles() {
         window.cancelAnimationFrame(frameId);
         frameId = 0;
         context.clearRect(0, 0, width, height);
-      } else if (!frameId && !document.hidden) {
+      } else if (!frameId && !document.hidden && !animationFinished) {
         lastFrame = 0;
         frameId = window.requestAnimationFrame(render);
       }

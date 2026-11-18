@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "./i18n";
 
 export type ProjectCopy = {
   summary: string;
@@ -25,8 +25,8 @@ export type PortfolioItem = {
   type: Record<Locale, string>;
   role: Record<Locale, string>;
   services: Record<Locale, string[]>;
-  category: "Web";
-  collection: "Commerce" | "Memorial";
+  category: string;
+  collection: string;
   liveUrl: string;
   previewUrl: string;
   previewFit: "cover" | "contain";

@@ -51,7 +51,7 @@ export default function AdminMessageInbox({
               <h2 className="text-base font-semibold uppercase tracking-[-0.02em] text-white sm:text-lg">{request.name}</h2>
               <a href={`mailto:${request.email}`} className="mt-1 inline-block text-xs text-[#ff526f] underline underline-offset-4">{request.email}</a>
             </div>
-            <time dateTime={request.createdAt} className="text-[9px] uppercase tracking-[0.18em] text-white/40">
+            <time dateTime={request.createdAt} className="text-[9px] uppercase tracking-[0.18em] text-white/50">
               {new Intl.DateTimeFormat(ru ? "ru-RU" : "en-US", { dateStyle: "medium", timeStyle: "short" }).format(new Date(request.createdAt))}
             </time>
           </div>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import AmbientParticles from "@/components/AmbientParticles";
+import { PageScrollProgress } from "@/components/ScrollEffects";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -60,8 +62,14 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-[#050505] text-[#f5f5f5]">
-        <AmbientParticles />
-        <div className="relative z-10">{children}</div>
+        <MotionConfig reducedMotion="user">
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-[#c8102e] focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-white">
+            Перейти к содержимому / Skip to content
+          </a>
+          <AmbientParticles />
+          <PageScrollProgress />
+          <div className="relative z-10">{children}</div>
+        </MotionConfig>
       </body>
     </html>
   );

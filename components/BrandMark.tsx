@@ -8,7 +8,7 @@ export default function BrandMark({ compact = false }: { compact?: boolean }) {
       </svg>
       <span className="flex flex-col leading-none">
         <span className="text-[13px] font-black uppercase tracking-[0.22em]">NOCTIS</span>
-        {!compact && <span className="mt-1 text-[8px] font-medium uppercase tracking-[0.36em] text-white/45">RAVEN · DIGITAL STUDIO</span>}
+        {!compact && <span className="mt-1 text-[8px] font-medium uppercase tracking-[0.36em] text-white/50">RAVEN · DIGITAL STUDIO</span>}
       </span>
     </span>
   );

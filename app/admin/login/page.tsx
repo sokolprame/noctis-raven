@@ -37,12 +37,12 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#050505] text-[#f8f5f5]">
+    <main id="main-content" lang="ru" className="min-h-screen bg-[#050505] text-[#f8f5f5]">
         <div className="mx-auto flex min-h-screen max-w-xl items-center px-5 py-10 sm:px-8 sm:py-16">
         <div className="w-full border border-white/10 bg-[#0b0a0f]/95 p-5 shadow-[0_40px_120px_rgba(0,0,0,0.45)] sm:p-10">
           <h1 className="text-3xl font-semibold uppercase tracking-[0.12em] text-[#f8f5f5] sm:text-4xl sm:tracking-[0.24em]">Вход в админку</h1>
           <p className="mt-4 text-base leading-7 text-[#b9b2bc]">
-            Войдите, чтобы читать заявки, отправленные через контактную форму.
+            Войдите, чтобы управлять кейсами портфолио и читать заявки с сайта.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-5 sm:mt-10 sm:space-y-6">
@@ -59,7 +59,7 @@ export default function AdminLoginPage() {
                 placeholder="Введите пароль"
               />
             </label>
-            {error && <p className="text-sm leading-6 text-[#ff6b8a]" aria-live="polite">{error}</p>}
+            <p role="status" className={error ? "text-sm leading-6 text-[#ff6b8a]" : "sr-only"}>{error}</p>
             <button
               type="submit"
               disabled={loading}

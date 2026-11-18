@@ -40,6 +40,10 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
     };
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) {
+      revealImmediately();
+      return;
+    }
 
     if (!canvas || !context) {
       revealImmediately();
@@ -120,13 +124,13 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
               ? Math.random() < 0.7 ? "rgba(179,0,45,0.9)" : "rgba(255,255,255,0.85)"
               : `rgba(${red},${green},${blue},${pixelsData[offset + 3] / 255})`,
             delay: Math.random() * (reducedMotion ? 0.16 : 0.62),
-            duration: reducedMotion ? 2 + Math.random() * 0.25 : 3.55 + Math.random() * 0.7,
+            duration: reducedMotion ? 2 + Math.random() * 0.25 : 3.25 + Math.random() * 0.45,
           });
         }
       }
 
-      const sparkStart = reducedMotion ? 2.2 : 4.05;
-      const sparkDuration = reducedMotion ? 0.65 : 0.78;
+      const sparkStart = reducedMotion ? 2.2 : 3.65;
+      const sparkDuration = reducedMotion ? 0.55 : 0.6;
       const sparks: Spark[] = Array.from({ length: 15 }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -134,14 +138,14 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
         driftY: (Math.random() - 0.5) * 38,
         size: 1 + Math.random() * 2,
         color: Math.random() < 0.72 ? "rgba(255,255,255,0.9)" : "rgba(255,26,77,0.95)",
-        delay: sparkStart + Math.random() * (reducedMotion ? 0.12 : 0.35),
+        delay: sparkStart + Math.random() * (reducedMotion ? 0.12 : 0.2),
       }));
 
-      const duration = reducedMotion ? 3.1 : 5.25;
-      const revealAt = reducedMotion ? 2.35 : 4.35;
+      const duration = reducedMotion ? 2.9 : 4.6;
+      const revealAt = reducedMotion ? 2.25 : 3.9;
       const startTime = performance.now();
-      image.style.transition = "opacity 780ms ease";
-      canvas.style.transition = "opacity 780ms ease";
+      image.style.transition = "opacity 350ms ease";
+      canvas.style.transition = "opacity 350ms ease";
 
       const drawFrame = (now: number) => {
         if (cancelled) return;
@@ -197,7 +201,7 @@ export default function PixelReveal({ locale, variant = "home" }: { locale: "ru"
 
     const revealWhenReady = () => {
       if (!inView || !image.complete || !image.naturalWidth) return;
-      image.parentElement?.classList.add("portrait-effects-active");
+    image.parentElement?.classList.add("portrait-effects-active");
       reveal();
     };
     const observer = typeof IntersectionObserver === "undefined"

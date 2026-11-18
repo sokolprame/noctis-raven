@@ -10,7 +10,7 @@ export default async function AdminMessagesPage() {
   const inbox = await getContactRequests();
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white">
+    <main id="main-content" lang="ru" className="min-h-screen bg-[#050505] text-white">
       <div className="mx-auto max-w-5xl px-5 py-8 sm:px-8 sm:py-14">
         <header className="mb-7 flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
           <div>

@@ -15,7 +15,7 @@ export default async function PrivacyPage({ searchParams }: { searchParams?: Pro
   const ru = locale === "ru";
 
   return (
-    <main className="min-h-screen bg-[#050505] text-[#f5f5f5]">
+    <main id="main-content" lang={locale} className="min-h-screen bg-[#050505] text-[#f5f5f5]">
       <SiteHeader />
       <article className="mx-auto max-w-4xl px-5 py-10 sm:px-8 sm:py-16 lg:px-10">
         <p className="text-[9px] font-semibold uppercase tracking-[0.36em] text-[#ff526f]">NOCTIS RAVEN / {ru ? "КОНТАКТНЫЕ ДАННЫЕ" : "CONTACT DATA"}</p>
