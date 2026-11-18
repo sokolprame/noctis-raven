@@ -1,7 +1,13 @@
 const defaultSiteUrl = "http://localhost:3000";
 
 function resolveSiteUrl() {
+  // Netlify provides URL (primary site URL) and DEPLOY_PRIME_URL (per-deploy URL
+  // for previews and branch deploys) automatically.
+  const netlifyUrl = process.env.CONTEXT && process.env.CONTEXT !== "production"
+    ? process.env.DEPLOY_PRIME_URL?.trim() || process.env.URL?.trim()
+    : process.env.URL?.trim() || process.env.DEPLOY_PRIME_URL?.trim();
   const configured = process.env.SITE_URL?.trim()
+    || netlifyUrl
     || process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim()
     || process.env.VERCEL_URL?.trim();
   if (!configured) {
