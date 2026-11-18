@@ -3,7 +3,7 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { ArrowDown, ArrowRight } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import HeroPortrait from "@/components/HeroPortrait";
 import type { Locale } from "@/lib/i18n";
 import { withLocale } from "@/lib/i18n";
@@ -19,6 +19,7 @@ type HomeHeroProps = {
 
 export default function HomeHero({ locale, badge, title, text, primary, secondary }: HomeHeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
+  const progressRef = useRef<HTMLSpanElement>(null);
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -28,6 +29,30 @@ export default function HomeHero({ locale, badge, title, text, primary, secondar
   const portraitY = useTransform(scrollYProgress, [0, 1], [0, -44]);
   const copyY = useTransform(scrollYProgress, [0, 1], [0, -36]);
   const copyOpacity = useTransform(scrollYProgress, [0, 0.82, 1], [1, 1, 0.45]);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+
+    const updateProgress = () => {
+      const section = sectionRef.current;
+      const progress = progressRef.current;
+      if (!section || !progress) return;
+
+      const scrollableDistance = section.offsetHeight - window.innerHeight;
+      const value = scrollableDistance > 0
+        ? Math.max(0, Math.min(-section.getBoundingClientRect().top / scrollableDistance, 1))
+        : 0;
+      progress.style.transform = `scaleX(${value})`;
+    };
+
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    return () => {
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+    };
+  }, [reduceMotion]);
 
   return (
     <section
@@ -89,7 +114,7 @@ export default function HomeHero({ locale, badge, title, text, primary, secondar
         <div aria-hidden="true" className="home-hero-scroll pointer-events-none absolute bottom-5 left-0 hidden items-center gap-3 font-mono text-[9px] tracking-[0.22em] text-white/50 lg:flex">
           <ArrowDown className="h-3.5 w-3.5 text-[#ff526f]" />
           <span>{locale === "ru" ? "ПРОКРУТИТЕ, ЧТОБЫ ВОЙТИ" : "SCROLL TO ENTER"}</span>
-          <motion.span className="home-hero-progress ml-2 h-px w-20 origin-left bg-[#ff526f]" style={reduceMotion ? undefined : { scaleX: scrollYProgress }} />
+          <span ref={progressRef} className="home-hero-progress ml-2 h-px w-20 origin-left bg-[#ff526f]" style={{ transform: "scaleX(0)" }} />
         </div>
         <span aria-hidden="true" className="pointer-events-none absolute bottom-5 right-0 hidden font-mono text-[9px] tracking-[0.18em] text-white/35 lg:block">01 — 05</span>
       </div>
